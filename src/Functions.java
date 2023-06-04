@@ -59,10 +59,11 @@ public class Functions
             else
             {
                 System.out.println(MintColorCode + "Username Added!" + whiteColorCode);
-                input.close();
+
                 flag = false;
             }
-        } while (flag);
+        }
+        while (flag);
     }
 
     public static void introducePassword()
@@ -87,9 +88,10 @@ public class Functions
                     flag = true;
                 }
             }
-        } while (flag);
+        }
+        while (flag);
         System.out.println(MintColorCode + "Password Added" + whiteColorCode);
-        input.close();
+
     }
 
     public static void introduceFirstName()
@@ -119,9 +121,10 @@ public class Functions
                     break;
                 }
             }
-        } while (flag);
+        }
+        while (flag);
         System.out.println(MintColorCode + "First Name Added" + whiteColorCode);
-        input.close();
+
     }
 
     public static void introduceLastName()
@@ -151,9 +154,10 @@ public class Functions
                     break;
                 }
             }
-        } while (flag);
+        }
+        while (flag);
         System.out.println(MintColorCode + "Last Name Added" + whiteColorCode);
-        input.close();
+
     }
 
     public static void introduceAge()
@@ -180,9 +184,10 @@ public class Functions
                 input.nextLine();
                 flag = true;
             }
-        } while (flag);
+        }
+        while (flag);
         System.out.println(MintColorCode + "Age Added" + whiteColorCode);
-        input.close();
+
     }
 
     public static void signup()
@@ -198,7 +203,7 @@ public class Functions
         if (answer)
         {
             System.out.println(MintColorCode + "Completed! Thank you for Signing up :)" + whiteColorCode);
-            input.close();
+
             Main.main(new String[]{});
         }
         else
@@ -231,7 +236,7 @@ public class Functions
             if (isUpdated)
             {
                 System.out.println(MintColorCode + "Completed, Password has been updated." + whiteColorCode);
-                input.close();
+
             }
             else
             {
@@ -279,17 +284,15 @@ public class Functions
                 flag = true;
             }
             Database.retrieveData(info);
-            for (int activityid : Database.storeActivityId)
+            if (Database.storeActivityName.contains(name))
             {
-                ArrayList<String> activityName = Database.storeActivityName;
-                if (activityName.contains(name))
-                {
-                    System.out.println(redColorCode + "Error: Habit already exists." + whiteColorCode);
-                    flag = true;
-                    break;
-                }
+                System.out.println(redColorCode + "Error: Habit already exists." + whiteColorCode);
+                flag = true;
+
             }
-        } while (flag);
+
+        }
+        while (flag);
         //habit description
         do
         {
@@ -306,7 +309,8 @@ public class Functions
                 System.out.println(redColorCode + "Error: Habit description must be at least 5 characters long." + whiteColorCode);
                 flag = true;
             }
-        } while (flag);
+        }
+        while (flag);
         //habit goal
         do
         {
@@ -323,7 +327,8 @@ public class Functions
                 System.out.println(redColorCode + "Error: Habit goal must be at least 5 characters long." + whiteColorCode);
                 flag = true;
             }
-        } while (flag);
+        }
+        while (flag);
         myActivity.setName(name);
         myActivity.setDescription(description);
         myActivity.setGoal(goal);
@@ -333,7 +338,7 @@ public class Functions
         if (ckh)
         {
             System.out.println(MintColorCode + "Completed, Data Added!" + whiteColorCode);
-            input.close();
+
         }
         else
         {
@@ -344,7 +349,7 @@ public class Functions
     // to update existing habit
     public static void updateHabit(UserLogin info)
     {
-       // Database.retrieveData(info);
+        // Database.retrieveData(info);
         int userId = Database.activeUserId(info);
         boolean chk1 = Database.displayDataForOtherOption(info);
         if (!chk1)
@@ -359,18 +364,16 @@ public class Functions
             {
                 habitId = input.nextInt();
                 input.nextLine();
-//            System.out.println("current days : "+c);
-                boolean found = false;
                 boolean flag = false;
                 boolean isHabitExist = Database.checkHabitId(habitId, userId);
                 if (isHabitExist)
                 {
                     do
                     {
-                        int c = Database.habitDays(habitId);
+                        int habitDays = Database.habitDays(habitId);
                         System.out.print("How many days have been completed so far? ");
                         completedDays = input.nextInt();
-                        if (completedDays <= c)
+                        if (completedDays <= habitDays)
                         {
                             System.out.println(redColorCode + "Error: You can't decline your progress days." + whiteColorCode);
                             flag = true;// bug fixed
@@ -429,7 +432,8 @@ public class Functions
                                                 System.out.println(redColorCode + "Error: Some problem occurred." + whiteColorCode);
                                             }
                                         }
-                                    } while (flag);
+                                    }
+                                    while (flag);
                                 }
                                 else
                                 {
@@ -443,8 +447,9 @@ public class Functions
                                 input.nextLine();
                             }
                         }
-                    } while (flag);
-                    input.close();
+                    }
+                    while (flag);
+
                 }
                 else
                 {
@@ -478,18 +483,18 @@ public class Functions
             System.out.print("ID Required for Eradication = ");
 //            input.nextLine();
             delId = input.nextInt();
-            int userID=Database.activeUserId(info);
+            int userID = Database.activeUserId(info);
             try
             {
-                boolean hasHabitfound = Database.checkHabitId(delId,userID);
-                    if (hasHabitfound)
+                boolean hasHabitFound = Database.checkHabitId(delId, userID);
+                if (hasHabitFound)
+                {
+                    boolean ckh = Database.deleteData(delId);
+                    if (ckh)
                     {
-                        boolean ckh = Database.deleteData(delId);
-                        if (ckh)
-                        {
-                            System.out.println(MintColorCode + "Habit has been removed from the record" + whiteColorCode);
-                        }
+                        System.out.println(MintColorCode + "Habit has been removed from the record" + whiteColorCode);
                     }
+                }
                 else
                 {
                     System.out.println(redColorCode + "Error: Habit id not matched" + whiteColorCode);

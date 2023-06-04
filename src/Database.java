@@ -3,7 +3,7 @@ import java.util.ArrayList;
 
 public class Database
 {
-    static String yellowColor="\u001B[93m";
+    static String yellowColor = "\u001B[93m";
     static String whiteColorCode = "\u001B[90m";
     static String redColorCode = "\u001B[31m";
     // To store habit id and habit name of active user
@@ -85,7 +85,7 @@ public class Database
             }
             if (total >= 5)
             {
-                System.out.println(redColorCode+"Error: You cannot have more than 5 habits at a time."+whiteColorCode);
+                System.out.println(redColorCode + "Error: You cannot have more than 5 habits at a time." + whiteColorCode);
                 entrychk = false;
             }
             else
@@ -152,17 +152,17 @@ public class Database
             c = activeUserId(info);
             String query = "select * from activity where userid = ?";
             PreparedStatement smt = con.prepareStatement(query);
-            smt.setInt(1,c);
+            smt.setInt(1, c);
             ResultSet show = smt.executeQuery();
-            boolean hasData=false;
+            boolean hasData = false;
             while (show.next())
             {
                 System.out.println(yellowColor);
                 int id = show.getInt(1);
                 String name = show.getString(2);
-                String description=show.getString(3);
-                String bar=show.getString(7);
-                String time=show.getString(5);
+                String description = show.getString(3);
+                String bar = show.getString(7);
+                String time = show.getString(5);
                 System.out.println("Habit ID : " + id);
                 System.out.println("Habit Name : " + name);
                 System.out.println("Description : " + description);
@@ -171,12 +171,12 @@ public class Database
                 System.out.println("--------------------------------------");
 
                 System.out.println(whiteColorCode);
-                hasData=true;
+                hasData = true;
             }
-            if(!hasData)
+            if (!hasData)
             {
-                System.out.println(redColorCode+"No Data available"+whiteColorCode);
-                chk=true;
+                System.out.println(redColorCode + "No Data available" + whiteColorCode);
+                chk = true;
             }
             con.close();
             smt.close();
@@ -209,26 +209,26 @@ public class Database
             c = activeUserId(info);
             String query = "select * from activity where userid = ?";
             PreparedStatement smt = con.prepareStatement(query);
-            smt.setInt(1,c);
+            smt.setInt(1, c);
             ResultSet show = smt.executeQuery();
-            boolean hasData=false;
+            boolean hasData = false;
             while (show.next())
             {
                 System.out.println(yellowColor);
                 int id = show.getInt(1);
                 String name = show.getString(2);
-                int days=show.getInt("completeddays");
+                int days = show.getInt("completeddays");
                 System.out.println("Habit ID : " + id);
                 System.out.println("Habit Name : " + name);
                 System.out.println("Number of days completed : " + days);
                 System.out.println("-----------------------------------------");
-                hasData=true;
+                hasData = true;
                 System.out.println(whiteColorCode);
             }
-            if(!hasData)
+            if (!hasData)
             {
-                System.out.println(redColorCode+"No Data available"+whiteColorCode);
-                chk=true;
+                System.out.println(redColorCode + "No Data available" + whiteColorCode);
+                chk = true;
             }
             con.close();
             smt.close();
@@ -342,26 +342,26 @@ public class Database
             int id = activeUserId(info);
             String query = "select * from history where userId =?";
             PreparedStatement pst = con.prepareStatement(query);
-            pst.setInt(1,id);
-            ResultSet show= pst.executeQuery();
-            boolean hasData=false;
-            while(show.next())
+            pst.setInt(1, id);
+            ResultSet show = pst.executeQuery();
+            boolean hasData = false;
+            while (show.next())
             {
                 System.out.println(yellowColor);
                 //int num= show.getInt(1);
-                String habitName=show.getString(2);
-                String impression=show.getString(3);
-                String fTime=show.getString(4);
-                System.out.println("Name : "+habitName);
-                System.out.println("Final Impression : "+impression);
-                System.out.println("Completed Time : "+ fTime);
+                String habitName = show.getString(2);
+                String impression = show.getString(3);
+                String fTime = show.getString(4);
+                System.out.println("Name : " + habitName);
+                System.out.println("Final Impression : " + impression);
+                System.out.println("Completed Time : " + fTime);
                 System.out.println("        -----------------------------       ");
                 System.out.println(whiteColorCode);
-                hasData=true;
+                hasData = true;
             }
-            if(!hasData)
+            if (!hasData)
             {
-                System.out.println(redColorCode+"No history available."+whiteColorCode);
+                System.out.println(redColorCode + "No history available." + whiteColorCode);
             }
             con.close();
             pst.close();
@@ -400,41 +400,44 @@ public class Database
     public static void showUserInfo(UserLogin info)
     {
 
-        try {
-            Connection con=Connector.createConnection();
+        try
+        {
+            Connection con = Connector.createConnection();
             String query = "SELECT * FROM user WHERE username = '" + info.getUsername() + "' AND password = '" + info.getPassword() + "';";
-            Statement smt=con.createStatement();
-            ResultSet rst= smt.executeQuery(query);
-            while(rst.next())
+            Statement smt = con.createStatement();
+            ResultSet rst = smt.executeQuery(query);
+            while (rst.next())
             {
                 System.out.println(yellowColor);
-                int userId=rst.getInt(1);
-                String username=rst.getString(2);
-                String FirstName=rst.getString(5);
-                String LastName=rst.getString(6);
-                String Age=rst.getString(7);
-                String cTime=rst.getString(4);
-                System.out.println("User ID :"+userId);
-                System.out.println("UserName :"+username);
-                System.out.println("First Name :"+FirstName);
-                System.out.println("Last Name :"+LastName);
-                System.out.println("Age :"+Age);
-                System.out.println("Created Time :"+cTime);
+                int userId = rst.getInt(1);
+                String username = rst.getString(2);
+                String FirstName = rst.getString(5);
+                String LastName = rst.getString(6);
+                String Age = rst.getString(7);
+                String cTime = rst.getString(4);
+                System.out.println("User ID :" + userId);
+                System.out.println("UserName :" + username);
+                System.out.println("First Name :" + FirstName);
+                System.out.println("Last Name :" + LastName);
+                System.out.println("Age :" + Age);
+                System.out.println("Created Time :" + cTime);
                 System.out.println(whiteColorCode);
             }
             con.close();
             smt.close();
             rst.close();
 
-        } catch (SQLException e) {
+        }
+        catch (SQLException e)
+        {
             throw new RuntimeException(e);
         }
 
     }
 
-    public static boolean checkHabitId(int habitId,int userId)
+    public static boolean checkHabitId(int habitId, int userId)
     {
-        boolean hasFound=false;
+        boolean hasFound = false;
         try
         {
             //jdbc code
@@ -442,7 +445,7 @@ public class Database
             String query = "SELECT * FROM activity WHERE number = '" + habitId + "' AND userid = '" + userId + "';";
             Statement smt = con.createStatement();
             ResultSet show = smt.executeQuery(query);
-            if(show.next())
+            if (show.next())
             {
                 hasFound = true;
             }
