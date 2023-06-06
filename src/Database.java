@@ -7,7 +7,7 @@ public class Database
     static String whiteColorCode = "\u001B[90m";
     static String redColorCode = "\u001B[31m";
     // To store habit id and habit name of active user
-    protected static ArrayList<Integer> storeActivityId = new ArrayList<>();
+//    protected static ArrayList<Integer> storeActivityId = new ArrayList<>();
     protected static ArrayList<String> storeActivityName = new ArrayList<>();
 
     //TO obtain id of active user
@@ -35,7 +35,7 @@ public class Database
     }
 
     //to fetch data of active user
-    public static void retrieveData(UserLogin info)
+    public static void retrieveDataIntoArray(UserLogin info)
     {
         try
         {
@@ -46,12 +46,12 @@ public class Database
             String query = "select * from activity where userid = '" + c + "';";
             Statement smt = con.createStatement();
             ResultSet show = smt.executeQuery(query);
-            storeActivityId.clear();
+//            storeActivityId.clear();
             storeActivityName.clear();
             while (show.next())
             {
-                int id = show.getInt(1);
-                storeActivityId.add(id);
+//                int id = show.getInt(1);
+//                storeActivityId.add(id);
                 String name = show.getString(2);
                 storeActivityName.add(name);
             }
@@ -74,22 +74,22 @@ public class Database
             //jdbc code
             Connection con = Connector.createConnection();
             int fetchId = activeUserId(id);
-            String count = "Select * from activity where userid =?";
-            PreparedStatement pst = con.prepareStatement(count);
-            pst.setInt(1, fetchId);
-            ResultSet set = pst.executeQuery();
-            int total = 0;
-            while (set.next())
-            {
-                total++;
-            }
-            if (total >= 5)
-            {
-                System.out.println(redColorCode + "Error: You cannot have more than 5 habits at a time." + whiteColorCode);
-                entrychk = false;
-            }
-            else
-            {
+//            String count = "Select * from activity where userid =?";
+//            PreparedStatement pst = con.prepareStatement(count);
+//            pst.setInt(1, fetchId);
+//            ResultSet set = pst.executeQuery();
+//            int total = 0;
+//            while (set.next())
+//            {
+//                total++;
+//            }
+//            if (total >= 5)
+//            {
+//                System.out.println(redColorCode + "Error: You cannot have more than 5 habits at a time." + whiteColorCode);
+//                entrychk = false;
+//            }
+//            else
+//            {
                 String query = "insert into activity(name,description,goal,bar,completeddays,userid)values(?,?,?,?,?,?)";
                 PreparedStatement pstmt = con.prepareStatement(query);
                 //set values of parameter
@@ -101,9 +101,9 @@ public class Database
                 pstmt.setInt(6, fetchId);
                 pstmt.executeUpdate();
                 entrychk = true;
-            }
+//            }
             con.close();
-            pst.close();
+            pstmt.close();
         }
         catch (Exception e)
         {
@@ -141,9 +141,9 @@ public class Database
     }
 
     //a function similar to retrieve but with boolean
-    public static boolean displayData(UserLogin info)
+    public static void displayCompleteHabitInfo(UserLogin info)//change from boolean
     {
-        boolean chk = false;
+//        boolean chk = false;
         try
         {
             //jdbc code
@@ -163,11 +163,11 @@ public class Database
                 String description = show.getString(3);
                 String bar = show.getString(7);
                 String time = show.getString(5);
-                System.out.println("Habit ID : " + id);
-                System.out.println("Habit Name : " + name);
-                System.out.println("Description : " + description);
-                System.out.println("Progress Bar : " + bar);
-                System.out.println("Created At : " + time);
+                System.out.println("Habit ID: " + id);
+                System.out.println("Habit Name: " + name);
+                System.out.println("Description: " + description);
+                System.out.println("Progress Bar: " + bar);
+                System.out.println("Created At: " + time);
                 System.out.println("--------------------------------------");
 
                 System.out.println(whiteColorCode);
@@ -176,7 +176,7 @@ public class Database
             if (!hasData)
             {
                 System.out.println(redColorCode + "No Data available" + whiteColorCode);
-                chk = true;
+//                chk = true;
             }
             con.close();
             smt.close();
@@ -194,13 +194,12 @@ public class Database
         {
             e.printStackTrace();
         }
-        return chk;
     }
 
     // to display data for other options
-    public static boolean displayDataForOtherOption(UserLogin info)
+    public static boolean displayGeneralHabitInfo(UserLogin info)
     {
-        boolean chk = false;
+        boolean chk = true;
         try
         {
             //jdbc code
@@ -218,9 +217,9 @@ public class Database
                 int id = show.getInt(1);
                 String name = show.getString(2);
                 int days = show.getInt("completeddays");
-                System.out.println("Habit ID : " + id);
-                System.out.println("Habit Name : " + name);
-                System.out.println("Number of days completed : " + days);
+                System.out.println("Habit ID: " + id);
+                System.out.println("Habit Name: " + name);
+                System.out.println("Number of days completed: " + days);
                 System.out.println("-----------------------------------------");
                 hasData = true;
                 System.out.println(whiteColorCode);
@@ -228,19 +227,11 @@ public class Database
             if (!hasData)
             {
                 System.out.println(redColorCode + "No Data available" + whiteColorCode);
-                chk = true;
+                chk = false;
             }
             con.close();
             smt.close();
             show.close();
-//            while (!show.next())
-//            {
-//
-//                System.out.println("No Data available");
-//                hasData=false;
-//                chk=true;
-//                break;
-//            }
         }
         catch (Exception e)
         {
@@ -352,9 +343,9 @@ public class Database
                 String habitName = show.getString(2);
                 String impression = show.getString(3);
                 String fTime = show.getString(4);
-                System.out.println("Name : " + habitName);
-                System.out.println("Final Impression : " + impression);
-                System.out.println("Completed Time : " + fTime);
+                System.out.println("Name: " + habitName);
+                System.out.println("Final Impression: " + impression);
+                System.out.println("Completed Time: " + fTime);
                 System.out.println("        -----------------------------       ");
                 System.out.println(whiteColorCode);
                 hasData = true;
@@ -415,12 +406,12 @@ public class Database
                 String LastName = rst.getString(6);
                 String Age = rst.getString(7);
                 String cTime = rst.getString(4);
-                System.out.println("User ID :" + userId);
-                System.out.println("UserName :" + username);
-                System.out.println("First Name :" + FirstName);
-                System.out.println("Last Name :" + LastName);
-                System.out.println("Age :" + Age);
-                System.out.println("Created Time :" + cTime);
+                System.out.println("User ID: " + userId);
+                System.out.println("UserName: " + username);
+                System.out.println("First Name: " + FirstName);
+                System.out.println("Last Name: " + LastName);
+                System.out.println("Age: " + Age);
+                System.out.println("Created Time: " + cTime);
                 System.out.println(whiteColorCode);
             }
             con.close();
@@ -460,31 +451,32 @@ public class Database
         return hasFound;
     }
 
-//    public static Activity checkHabitById(int habitId,int userId)
-//    {
-//        boolean hasFound=false;
-//        try
-//        {
-//            //jdbc code
-//            Connection con = Connector.createConnection();
-//            String query = "SELECT * FROM activity WHERE number = '" + habitId + "' AND userid = '" + userId + "';";
-//            Statement smt = con.createStatement();
-//            ResultSet show = smt.executeQuery(query);
-//            System.out.println(show);
-//
-////            if(show.next())
-////            {
-////                hasFound = true;
-////            }
-//            con.close();
-//            smt.close();
-//            show.close();
-//            return (Activity) show;
-//        }
-//        catch (Exception e)
-//        {
-//            e.printStackTrace();
-//        }
-//        return null;
-//    }
+    public static boolean habitCounter(UserLogin id)
+    {
+        boolean entrychk = false;
+        try
+        {
+            //jdbc code
+            Connection con = Connector.createConnection();
+            int fetchId = activeUserId(id);
+            String count = "Select * from activity where userid =?";
+            PreparedStatement pst = con.prepareStatement(count);
+            pst.setInt(1, fetchId);
+            ResultSet set = pst.executeQuery();
+            int total = 0;
+            while (set.next())
+            {
+                total++;
+            }
+            //                System.out.println(redColorCode + "Error: You cannot have more than 5 habits at a time." + whiteColorCode);
+            entrychk = total < 5;
+            con.close();
+            pst.close();
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        return entrychk;
+    }
 }

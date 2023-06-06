@@ -11,7 +11,7 @@ public class password
         try
         {
             Connection con = Connector.createConnection();
-            String query = "select * from user where username=? and first_name=? and last_name=? and age=?;";
+            String query = "select * from user where binary username=? and binary first_name=? and binary last_name=? and age=?;";
             PreparedStatement pstmt = con.prepareStatement(query);
             pstmt.setString(1, userName);
             pstmt.setString(2, firstName);

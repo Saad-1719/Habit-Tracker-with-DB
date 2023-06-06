@@ -3,149 +3,165 @@ import java.util.Scanner;
 
 public class Main
 {
+    private static final String WHITE_COLOR_CODE = "\u001B[97m";
+    private static final String RED_COLOR_CODE = "\u001B[31m";
+    private static final String MINT_COLOR_CODE = "\u001B[38;5;85m";
+    private static final String PARTY_EMOJI = "\uD83C\uDF89"; //🎉
+
+
     public static void main(String[] args)
     {
         Scanner input = new Scanner(System.in);
 
-        //color codes
-//        String cyanBrightBlueColorCode = "\u001B[96m";
-//        String MintColorCode = "\u001B[38;5;85m";
-//        String blueGreenColorCode = "\u001B[36m";
-//        String darkBlueColorCode = "\u001B[38;5;24m";
-        String whiteColorCode = "\u001B[90m";
-        String redColorCode = "\u001B[31m";
-        String MintColorCode = "\u001B[92m";
-        String brightPinkColorCode = "\u001B[95m";
-        System.out.println(brightPinkColorCode + "                        ∧ＴＬ∧ＳＭＩＮＤ Welcomes you");
-        System.out.println(whiteColorCode);
 
-        while (true)
+        boolean isRunning = true;
+        while (isRunning)
         {
-            try
+            // Display Main Menu.
+            displayMenu();
+
+            // Get user choice from the main menu.
+            int choice = getUserChoice(input);
+
+            switch (choice)
             {
-                System.out.println("1- Join now ");
-                System.out.println("2- Login and step into your world.");
-                System.out.println("3- Forgot your password? We'll help you to recover.");
-                System.out.println("4- Ready to depart? Exit gracefully.");
-                System.out.print("Enter your choice ");
-                int choice = input.nextInt();
-                input.nextLine();
-                if (choice == 1)
-                {
+                // Signing Up.
+                case 1:
+                    System.out.println(" ");
+                    System.out.println("< ------------------- A New World, A New Journey ------------------ >");
                     Functions.signup();
-                }
-                else if (choice == 2)
-                {
-                    System.out.print("Enter username : ");
-                    String username;
-                    username = input.nextLine();
-                    System.out.print("Enter password : ");
-                    String password;
-                    password = input.nextLine();
+                    break;
+
+                // Logging In.
+                case 2:
+                    System.out.println(" ");
+                    System.out.println("< ------------------- Let's Do This ------------------ >");
+                    System.out.print("Enter Username: ");
+                    String username = input.nextLine();
+                    System.out.print("Enter Password: ");
+                    String password = input.nextLine();
                     UserLogin info = new UserLogin(username, password);
-                    boolean isLogin = LoginCheckFromDB.checkLogin(info);
-                    if (isLogin)
+                    boolean answer = LoginCheckFromDB.checkLogin(info);
+                    System.out.println(" ");
+                    if (answer)
                     {
-                        int selection;
-                        System.out.println(MintColorCode + "Congratulations! Access granted. You're in! \uD83C\uDF89" + whiteColorCode);
+                        System.out.println(MINT_COLOR_CODE + "Congratulations! You've Made It!" + PARTY_EMOJI + WHITE_COLOR_CODE);
+                        // Greeting the user.
                         Functions.greetings(info);
-                        //boolean flag = true;
-                        System.out.println(" ");
-                        while (true)
-                        {
-                            try
-                            {
-                                System.out.println("1- Introduce a New Habit");
-                                System.out.println("2- Showcase Current Habits");
-                                System.out.println("3- Eliminate a Habit");
-                                System.out.println("4- Enhance Progress");
-                                System.out.println("5- Explore Activity History");
-                                System.out.println("6- Inspiring Quote of the Day");
-                                System.out.println("7- User Info");
-                                System.out.println("8- Logout and Exit");
-                                System.out.print("   Enter your choice : ");
-                                selection = input.nextInt();
-                                System.out.println(" ");
-                                if (selection == 1)
-                                {
-                                    Functions.addHabit(info);
-                                }
-                                else if (selection == 2)
-                                {
-                                    Functions.showHabit(info);
-                                }
-                                else if (selection == 3)
-                                {
-                                    Functions.deleteHabit(info);
-                                }
-                                else if (selection == 4)
-                                {
-                                    Functions.updateHabit(info);
-                                }
-                                else if (selection == 5)
-                                {
-                                    Functions.showHistory(info);
-                                }
-                                else if (selection == 6)
-                                {
-                                    Functions.quotes();
-                                }
-                                else if (selection == 7)
-                                {
-                                    Functions.showUserInfo(info);
-                                }
-                                else if (selection == 8)
-                                {
-                                    break;
-                                }
-                                else
-                                {
-                                    System.out.println(" ");
-                                    System.out.println(redColorCode + "Choice Anomaly: Unrecognized Input");
-                                    System.out.println(whiteColorCode);
-                                }
-                            }
-                            catch (InputMismatchException e)
-                            {
-                                System.out.println(redColorCode + "Wrong Input");
-                                System.out.println(whiteColorCode);
-                                input.nextLine();
-                            }
-                        }
+                        isRunning = handleLoggedInMenu(input, info);
                     }
                     else
                     {
-                        System.out.println(" ");
-                        System.out.println(redColorCode + "Credentials Clash: Authentication Aborted \uD83D\uDE15");
-                        System.out.println(whiteColorCode);
-//                            System.out.println(brightPinkColorCode);
+                        System.out.println(RED_COLOR_CODE + "Credentials Clash: Authentication Aborted! \uD83D\uDE15" + WHITE_COLOR_CODE);
                     }
-                }
-                else if (choice == 3)
-                {
-                    Functions.forgetPassword();
-                }
-                else if (choice == 4)
-                {
-                    input.close();
-                    System.exit(0);
                     break;
-                }
-                else
-                {
-                    System.out.println(" ");
-                    System.out.println(redColorCode + "Choice Detonated: Unrecognized Selection");
-                    System.out.println(whiteColorCode);
-                }
-            }
-            catch (InputMismatchException e)
-            {
-                System.out.println(" ");
-                System.out.println(redColorCode + "Invalid Input");
-                System.out.println(whiteColorCode);
-                input.nextLine();
+                case 3:
+                    // Update Password.
+                    Functions.forgetPassword();
+                    break;
+                case 4:
+                    // Depart and Exit.
+                    isRunning = false;
+                    break;
             }
         }
 
+        input.close();
+    }
+
+    // Main Menu
+    private static void displayMenu()
+    {
+        System.out.println(" ");
+        System.out.println(MINT_COLOR_CODE + "\t\t\t\t\t WELCOME TO ∧ＴＬ∧ＳＭＩＮＤ" + WHITE_COLOR_CODE);
+        System.out.println("Press [1] To Join Us.");
+        System.out.println("Press [2] To Login and Step Into Your World.");
+        System.out.println("Press [3] To Forgot your password? We'll help you recover.");
+        System.out.println("Press [4] To Depart & Exit.");
+        System.out.print("Enter Your Desired Choice: ");
+    }
+
+    // Users Choice.
+    private static int getUserChoice(Scanner input)
+    {
+        int choice = 0;
+        try
+        {
+            choice = input.nextInt();
+            input.nextLine();
+        }
+        catch (InputMismatchException e)
+        {
+            System.out.println(" ");
+            System.out.println(RED_COLOR_CODE + "Invalid Input" + WHITE_COLOR_CODE);
+            input.nextLine();
+        }
+        return choice;
+    }
+
+    private static boolean handleLoggedInMenu(Scanner input, UserLogin info)
+    {
+        while (true)
+        {
+
+            // Menu Within After Login.
+            displayLoggedInMenu();
+            int selection = getUserChoice(input);
+            System.out.println();
+            switch (selection)
+            {
+                case 1:
+                    Functions.addHabit(info);
+                    break;
+                case 2:
+                    Functions.showHabit(info);
+                    break;
+                case 3:
+                    Functions.deleteHabit(info);
+                    break;
+                case 4:
+                    Functions.updateHabit(info);
+                    break;
+                case 5:
+                    Functions.showHistory(info);
+                    break;
+                case 6:
+                    Functions.quotes();
+                    break;
+                case 7:
+                    Functions.showUserInfo(info);
+                    break;
+                case 8:
+//                    displayMenu();
+                    System.out.println("Logged Out...");
+                    break;
+                default:
+                    System.out.println(" ");
+                    System.out.println(RED_COLOR_CODE + "Invalid Choice" + WHITE_COLOR_CODE);// multiple times appearing
+                    break;
+            }
+            if (selection == 8)
+            {
+                break;//bug fix
+            }
+        }
+        return true;
+    }
+
+    // Menu After Logging In.
+    private static void displayLoggedInMenu()
+    {
+        System.out.println(" ");
+        System.out.println(MINT_COLOR_CODE+"\t\t\t\t\t ∧ＴＬ∧ＳＭＩＮＤ \n"+WHITE_COLOR_CODE);
+//        System.out.println(WHITE_COLOR_CODE);
+        System.out.println("Press [1] To Introduce a New Habit.");
+        System.out.println("Press [2] To Showcase Current Habits.");
+        System.out.println("Press [3] To Delete a Habit");
+        System.out.println("Press [4] To Enhance Progress");
+        System.out.println("Press [5] To View History");
+        System.out.println("Press [6] To View Inspiring Quote of the Day.");
+        System.out.println("Press [7] To View User Info.");
+        System.out.println("Press [8] To Logout and Disembark.");
+        System.out.print("Enter your choice: ");
     }
 }
