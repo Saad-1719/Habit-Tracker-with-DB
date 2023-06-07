@@ -479,4 +479,70 @@ public class Database
         }
         return entrychk;
     }
+
+    public static boolean writeDeleted(UserLogin id, Activity data)
+    {
+        boolean flag = false;
+        try
+        {
+            Connection con = Connector.createConnection();
+            int fetchId = activeUserId(id);
+            PreparedStatement pst;
+            String query = "insert into deleted(habit_name,user_id)values(?,?)";
+            pst = con.prepareStatement(query);
+            //set values of parameter
+            pst.setString(1, data.getName());
+            pst.setInt(2, fetchId);
+            int count = pst.executeUpdate();
+            if (count > 0)
+            {
+                flag = true;
+            }
+            con.close();
+            pst.close();
+
+        }
+        catch (Exception e)
+        {
+            throw new RuntimeException(e);
+        }
+        return flag;
+    }
+
+    public static void displayDeletedHabitInfo(UserLogin info)
+    {
+        try
+        {
+            Connection con = Connector.createConnection();
+            int id = activeUserId(info);
+            String query = "select * from deleted where user_id =?";
+            PreparedStatement pst = con.prepareStatement(query);
+            pst.setInt(1, id);
+            ResultSet show = pst.executeQuery();
+            boolean hasData = false;
+            while (show.next())
+            {
+                System.out.println(yellowColor);
+                //int num= show.getInt(1);
+                String habitName = show.getString(2);
+                String fTime = show.getString(3);
+                System.out.println("Name: " + habitName);
+                System.out.println("Deleted Time: " + fTime);
+                System.out.println("        -----------------------------       ");
+                System.out.println(whiteColorCode);
+                hasData = true;
+            }
+            if (!hasData)
+            {
+                System.out.println(redColorCode + "No deleted history available." + whiteColorCode);
+            }
+            con.close();
+            pst.close();
+            show.close();
+        }
+        catch (SQLException e)
+        {
+            throw new RuntimeException(e);
+        }
+    }
 }

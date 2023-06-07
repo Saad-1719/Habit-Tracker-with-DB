@@ -3,6 +3,15 @@ public class Activity
     private String name, description, achievement, goal, progressBar;
     private int completedDays;
 
+    public Activity()
+    {
+        name="";
+        description="";
+        goal="";
+        completedDays=0;
+        progressBar="";
+    }
+
     public Activity(String name, String achievement)
     {
         this.name = name;

@@ -40,6 +40,7 @@ public class Main
                     String username = input.nextLine();
                     System.out.print("Enter Password: ");
                     String password = input.nextLine();
+
                     UserLogin info = new UserLogin(username, password);
                     boolean answer = LoginCheckFromDB.checkLogin(info);
                     System.out.println(" ");
@@ -62,6 +63,8 @@ public class Main
                 case 4:
                     // Depart and Exit.
                     isRunning = false;
+                    System.out.println(" ");
+                    System.out.println(MINT_COLOR_CODE+"Application Terminated. "+WHITE_COLOR_CODE);
                     break;
             }
         }
@@ -93,7 +96,7 @@ public class Main
         catch (InputMismatchException e)
         {
             System.out.println(" ");
-            System.out.println(RED_COLOR_CODE + "Invalid Input" + WHITE_COLOR_CODE);
+            System.out.println(RED_COLOR_CODE + "Error: Input is not an integer" + WHITE_COLOR_CODE);
             input.nextLine();
         }
         return choice;
@@ -126,21 +129,24 @@ public class Main
                     Functions.showHistory(info);
                     break;
                 case 6:
-                    Functions.quotes();
+                    Functions.showDeletedHabit(info);
                     break;
                 case 7:
-                    Functions.showUserInfo(info);
+                    Functions.quotes();
                     break;
                 case 8:
+                    Functions.showUserInfo(info);
+                    break;
+                case 9:
 //                    displayMenu();
                     System.out.println("Logged Out...");
                     break;
                 default:
-                    System.out.println(" ");
-                    System.out.println(RED_COLOR_CODE + "Invalid Choice" + WHITE_COLOR_CODE);// multiple times appearing
+//                    System.out.println(" ");
+                    System.out.println(RED_COLOR_CODE + "Error: Invalid Menu Choice" + WHITE_COLOR_CODE);// multiple times appearing
                     break;
             }
-            if (selection == 8)
+            if (selection == 9)
             {
                 break;//bug fix
             }
@@ -152,16 +158,17 @@ public class Main
     private static void displayLoggedInMenu()
     {
         System.out.println(" ");
-        System.out.println(MINT_COLOR_CODE+"\t\t\t\t\t ∧ＴＬ∧ＳＭＩＮＤ \n"+WHITE_COLOR_CODE);
+        System.out.println(MINT_COLOR_CODE + "\t\t\t\t\t ∧ＴＬ∧ＳＭＩＮＤ \n" + WHITE_COLOR_CODE);
 //        System.out.println(WHITE_COLOR_CODE);
         System.out.println("Press [1] To Introduce a New Habit.");
         System.out.println("Press [2] To Showcase Current Habits.");
         System.out.println("Press [3] To Delete a Habit");
         System.out.println("Press [4] To Enhance Progress");
         System.out.println("Press [5] To View History");
-        System.out.println("Press [6] To View Inspiring Quote of the Day.");
-        System.out.println("Press [7] To View User Info.");
-        System.out.println("Press [8] To Logout and Disembark.");
+        System.out.println("Press [6] To View Deleted Habits");
+        System.out.println("Press [7] To View Inspiring Quote of the Day.");
+        System.out.println("Press [8] To View User Info.");
+        System.out.println("Press [9] To Logout and Disembark.");
         System.out.print("Enter your choice: ");
     }
 }

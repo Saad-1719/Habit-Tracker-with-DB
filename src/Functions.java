@@ -115,12 +115,12 @@ public class Functions
                     flag = true;
                     break;
                 }
-                if ((firstName.charAt(i) >= 'A') && (firstName.charAt(i) <= 'Z'))
-                {
-                    System.out.println(redColorCode + "Error: Ensure that your first name is written in lowercase letters." + whiteColorCode);
-                    flag = true;
-                    break;
-                }
+//                if ((firstName.charAt(i) >= 'A') && (firstName.charAt(i) <= 'Z'))
+//                {
+//                    System.out.println(redColorCode + "Error: Ensure that your first name is written in lowercase letters." + whiteColorCode);
+//                    flag = true;
+//                    break;
+//                }
             }
         }
         while (flag);
@@ -296,25 +296,25 @@ public class Functions
                     System.out.println(redColorCode + "Error: Habit name must be at least 3 characters long." + whiteColorCode);
                     flag = true;
                 }
-                else if (lowerCase.trim().matches("[a-zA-Z0-9 ]+"))
+//                else if (lowerCase.trim().matches("[a-zA-Z0-9 ]+"))
+//                {
+//                    System.out.println(redColorCode + "Error: Habit name can only contain letters, and spaces." + whiteColorCode);
+//                    flag = true;
+//                }
+                boolean containsDigits = false;
+                for (int i = 0; i < lowerCase.length(); i++)
                 {
-                    System.out.println(redColorCode + "Error: Habit name can only contain letters, and spaces." + whiteColorCode);
-                    flag = true;
+                    if (Character.isDigit(lowerCase.charAt(i)))
+                    {
+                        containsDigits = true;
+                        flag=true;
+                        break;
+                    }
                 }
-//                boolean containsDigits = false;
-//                for (int i = 0; i < lowerCase.length(); i++)
-//                {
-//                    if (Character.isDigit(lowerCase.charAt(i)))
-//                    {
-//                        containsDigits = true;
-//                        flag=true;
-//                        break;
-//                    }
-//                }
-//                if (containsDigits)
-//                {
-//                    System.out.println(redColorCode+"Error: Habit name contains digits"+whiteColorCode);
-//                }
+                if (containsDigits)
+                {
+                    System.out.println(redColorCode+"Error: Habit name contains digits"+whiteColorCode);
+                }
                 Database.retrieveDataIntoArray(info);
 
                 if (Database.storeActivityName.contains(lowerCase))
@@ -517,7 +517,7 @@ public class Functions
     // to delete habit from db
     public static void deleteHabit(UserLogin info)
     {
-        Database.retrieveDataIntoArray(info);
+//        Database.retrieveDataIntoArray(info);
         boolean isDataExists = Database.displayGeneralHabitInfo(info);
         if (isDataExists)
         {
@@ -525,7 +525,7 @@ public class Functions
             // data delete
             System.out.println(redColorCode+"Press Enter to continue if no input option appears"+whiteColorCode);
             input.nextLine();
-            System.out.print("Which Habit would you like to delete? ");
+            System.out.println("Which Habit would you like to delete? ");
             System.out.print("Enter Habit's ID: ");
 //            input.nextLine();
 
@@ -536,6 +536,18 @@ public class Functions
                 boolean hasHabitFound = Database.checkHabitId(delId, userID);
                 if (hasHabitFound)
                 {
+                    String habitName = Database.habitName(delId);
+                    Activity data=new Activity();
+                    data.setName(habitName);
+                    Database.writeDeleted(info, data);
+//                    if (isWritten)
+//                    {
+//                        System.out.println(greenColorCode + "Habit has been deleted!" + whiteColorCode);
+//                    }
+//                    else
+//                    {
+//                        System.out.println(redColorCode + "Error: Some problem occurred." + whiteColorCode);
+//                    }
                     boolean ckh = Database.deleteData(delId);
                     if (ckh)
                     {
@@ -599,5 +611,10 @@ public class Functions
     public static void showUserInfo(UserLogin info)
     {
         Database.showUserInfo(info);
+    }
+
+    public static void showDeletedHabit(UserLogin info)
+    {
+        Database.displayDeletedHabitInfo(info);
     }
 }
