@@ -13,6 +13,7 @@ public class Functions
     static int age = 0;
     static boolean flag;
     //    static String whiteColorCode = "\u001B[97m";
+    private static final String MINT_COLOR_CODE = "\u001B[38;5;85m";
     static String whiteColorCode = "\u001B[97m";
     static String redColorCode = "\u001B[31m";
     static String greenColorCode = "\u001B[92m";
@@ -122,6 +123,20 @@ public class Functions
 //                    break;
 //                }
             }
+            boolean containsDigits = false;
+            for (int i = 0; i < firstName.length(); i++)
+            {
+                if (Character.isDigit(firstName.charAt(i)))
+                {
+                    containsDigits = true;
+                    flag=true;
+                    break;
+                }
+            }
+            if (containsDigits)
+            {
+                System.out.println(redColorCode+"Error: First name contains digits"+whiteColorCode);
+            }
         }
         while (flag);
         System.out.println(greenColorCode + "First Name Added" + whiteColorCode);
@@ -149,12 +164,26 @@ public class Functions
                     flag = true;
                     break;
                 }
-                if ((lastName.charAt(i) >= 'A') && (lastName.charAt(i) <= 'Z'))
+//                if ((lastName.charAt(i) >= 'A') && (lastName.charAt(i) <= 'Z'))
+//                {
+//                    System.out.println(redColorCode + "Error: Ensure that your last name is written in lowercase letters." + whiteColorCode);
+//                    flag = true;
+//                    break;
+//                }
+            }
+            boolean containsDigits = false;
+            for (int j = 0; j < lastName.length(); j++)
+            {
+                if (Character.isDigit(lastName.charAt(j)))
                 {
-                    System.out.println(redColorCode + "Error: Ensure that your last name is written in lowercase letters." + whiteColorCode);
-                    flag = true;
+                    containsDigits = true;
+                    flag=true;
                     break;
                 }
+            }
+            if (containsDigits)
+            {
+                System.out.println(redColorCode+"Error: Last name contains digits"+whiteColorCode);
             }
         }
         while (flag);
@@ -511,6 +540,7 @@ public class Functions
     // to show habit from db
     public static void showHabit(UserLogin info)
     {
+        System.out.println(MINT_COLOR_CODE + "---------------- Habits ---------------\n" + whiteColorCode);
         Database.displayCompleteHabitInfo(info);
     }
 
@@ -518,6 +548,8 @@ public class Functions
     public static void deleteHabit(UserLogin info)
     {
 //        Database.retrieveDataIntoArray(info);
+        System.out.println(MINT_COLOR_CODE + "\t\t\t\t\t Habits \n" + whiteColorCode);
+
         boolean isDataExists = Database.displayGeneralHabitInfo(info);
         if (isDataExists)
         {
@@ -605,16 +637,20 @@ public class Functions
 
     public static void showHistory(UserLogin info)
     {
+        System.out.println(MINT_COLOR_CODE + "\t\t\t\t\t History \n" + whiteColorCode);
+
         Database.displayHistory(info);
     }
 
     public static void showUserInfo(UserLogin info)
     {
+        System.out.println(MINT_COLOR_CODE + "\t\t\t\t\t User Info \n" + whiteColorCode);
         Database.showUserInfo(info);
     }
 
     public static void showDeletedHabit(UserLogin info)
     {
+        System.out.println(MINT_COLOR_CODE + "\t\t\t\t\t Deleted Habits \n" + whiteColorCode);
         Database.displayDeletedHabitInfo(info);
     }
 }
