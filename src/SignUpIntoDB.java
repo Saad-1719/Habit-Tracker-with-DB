@@ -26,7 +26,7 @@ public class SignUpIntoDB
         catch (Exception e)
         {
             e.printStackTrace();
-            System.out.println("An error occured :" + e.getMessage());
+            System.out.println("An error occurred :" + e.getMessage());
         }
         return flag;
     }

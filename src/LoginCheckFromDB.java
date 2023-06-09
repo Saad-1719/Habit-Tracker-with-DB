@@ -26,7 +26,6 @@ public class LoginCheckFromDB
         }
         catch (SQLException e)
         {
-            //e.printStackTrace();
             System.out.println("An error occurred :" + e.getMessage());
         }
         return flag;

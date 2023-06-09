@@ -6,13 +6,11 @@ import java.util.Scanner;
 
 public class Functions
 {
-    //        String resetColorCode = "\u001B[0m";
     static Scanner input = new Scanner(System.in);
     static LocalTime currentTime = LocalTime.now();
-    static String username,createPassword,firstName,lastName;
+    static String username, createPassword, firstName, lastName;
     static int age = 0;
     static boolean flag;
-    //    static String whiteColorCode = "\u001B[97m";
     private static final String MINT_COLOR_CODE = "\u001B[38;5;85m";
     static String whiteColorCode = "\u001B[97m";
     static String redColorCode = "\u001B[31m";
@@ -78,7 +76,6 @@ public class Functions
             if (password_length < 5)
             {
                 System.out.println(redColorCode + "Error: Ensure that your password has a minimum of 5 characters." + whiteColorCode);
-//                System.out.println("Please enter it again");
                 flag = true;
             }
             for (int i = 0; i < password_length; i++)
@@ -108,6 +105,11 @@ public class Functions
                 System.out.println(redColorCode + "Error: First Name isn't entered." + whiteColorCode);
                 flag = true;
             }
+            else if (firstName.trim().matches(".*[^a-zA-Z0-9\\s].*"))
+            {
+                System.out.println(redColorCode + "Error: First name contains special characters." + whiteColorCode);
+                flag = true;
+            }
             for (int i = 0; i < firstName.length(); i++)
             {
                 if (Character.isWhitespace(firstName.charAt(i)))
@@ -116,12 +118,6 @@ public class Functions
                     flag = true;
                     break;
                 }
-//                if ((firstName.charAt(i) >= 'A') && (firstName.charAt(i) <= 'Z'))
-//                {
-//                    System.out.println(redColorCode + "Error: Ensure that your first name is written in lowercase letters." + whiteColorCode);
-//                    flag = true;
-//                    break;
-//                }
             }
             boolean containsDigits = false;
             for (int i = 0; i < firstName.length(); i++)
@@ -129,13 +125,13 @@ public class Functions
                 if (Character.isDigit(firstName.charAt(i)))
                 {
                     containsDigits = true;
-                    flag=true;
+                    flag = true;
                     break;
                 }
             }
             if (containsDigits)
             {
-                System.out.println(redColorCode+"Error: First name contains digits"+whiteColorCode);
+                System.out.println(redColorCode + "Error: First name contains digits" + whiteColorCode);
             }
         }
         while (flag);
@@ -156,6 +152,11 @@ public class Functions
                 System.out.println(redColorCode + "Error: Last Name isn't entered." + whiteColorCode);
                 flag = true;
             }
+            else if (lastName.trim().matches(".*[^a-zA-Z0-9\\s].*"))
+            {
+                System.out.println(redColorCode + "Error: Last name contains special characters." + whiteColorCode);
+                flag = true;
+            }
             for (int i = 0; i < lastName.length(); i++)
             {
                 if (Character.isWhitespace(lastName.charAt(i)))
@@ -164,12 +165,6 @@ public class Functions
                     flag = true;
                     break;
                 }
-//                if ((lastName.charAt(i) >= 'A') && (lastName.charAt(i) <= 'Z'))
-//                {
-//                    System.out.println(redColorCode + "Error: Ensure that your last name is written in lowercase letters." + whiteColorCode);
-//                    flag = true;
-//                    break;
-//                }
             }
             boolean containsDigits = false;
             for (int j = 0; j < lastName.length(); j++)
@@ -177,13 +172,13 @@ public class Functions
                 if (Character.isDigit(lastName.charAt(j)))
                 {
                     containsDigits = true;
-                    flag=true;
+                    flag = true;
                     break;
                 }
             }
             if (containsDigits)
             {
-                System.out.println(redColorCode+"Error: Last name contains digits"+whiteColorCode);
+                System.out.println(redColorCode + "Error: Last name contains digits" + whiteColorCode);
             }
         }
         while (flag);
@@ -222,13 +217,12 @@ public class Functions
 
     }
 
+    //signup function to add new user
     public static void signup()
     {
         //Function to create a new username
-        System.out.println(redColorCode+"Press Enter to continue if no input option appears"+whiteColorCode);
+        System.out.println(redColorCode + "Press Enter to continue if no input option appears" + whiteColorCode);
         createUserName();
-//        System.out.println("Press any key to continue");
-//        input.nextLine();
         //Function to create a new password
         introducePassword();
         //Function to create first name
@@ -239,6 +233,7 @@ public class Functions
         introduceAge();
         UserSignup info = new UserSignup(username, createPassword, firstName, lastName, age);
         boolean isSignUp = SignUpIntoDB.signUp(info);
+        // to check if the user is signed up or not
         if (isSignUp)
         {
             System.out.println(" ");
@@ -251,22 +246,30 @@ public class Functions
             System.out.println(redColorCode + "Something went wrong :(" + whiteColorCode);
         }
     }
-    // to forget password
 
+    // to forget password
     public static void forgetPassword()
     {
-        System.out.println(" ");
-        System.out.println(redColorCode+"Press Enter to continue if no input option appears"+whiteColorCode);
-        input.nextLine();
-        System.out.print("Enter a username: ");
-        username = input.nextLine();
-        System.out.print("Enter First name: ");
-        firstName = input.nextLine();
-        System.out.print("Enter Last name: ");
-        lastName = input.nextLine();
-        System.out.print("Enter Age: ");
-        age = input.nextInt();
-        input.nextLine();
+        try
+        {
+            System.out.println(" ");
+            System.out.println(redColorCode + "Press Enter to continue if no input option appears" + whiteColorCode);
+            input.nextLine();
+            System.out.print("Enter a username: ");
+            username = input.nextLine();
+            System.out.print("Enter First name: ");
+            firstName = input.nextLine();
+            System.out.print("Enter Last name: ");
+            lastName = input.nextLine();
+            System.out.print("Enter Age: ");
+            age = input.nextInt();
+        }
+        catch (Exception e)
+        {
+            System.out.println(redColorCode + "Error: Invalid Input.Please enter a valid integer value" + whiteColorCode);
+            input.nextLine();
+        }
+        // to check if the credentials are matched or not
         boolean isMatched = password.matchInfo(username, firstName, lastName, age);
         if (isMatched)
         {
@@ -290,6 +293,7 @@ public class Functions
             System.out.println(redColorCode + "Error: Credentials not matched." + whiteColorCode);
             System.out.println(" ");
         }
+
     }
 
     // to add a habit into db
@@ -302,19 +306,17 @@ public class Functions
         String progressBar = "-----------------------------";
         boolean flag;
         Activity myActivity = new Activity("", "", "", 0, "");
-        // data entry to db
-        //habit name
-        System.out.println(redColorCode+"Press Enter to continue if no input option appears"+whiteColorCode);
-        input.nextLine();
+        System.out.println(redColorCode + "Press Enter to continue if no input option appears" + whiteColorCode);
         boolean canAddHabit = Database.habitCounter(info);
         if (canAddHabit)
         {
+            input.nextLine();
             do
             {
                 flag = false;
                 System.out.print("What is your habit's name? ");
                 name = input.nextLine();
-                String lowerCase=name.toLowerCase();
+                String lowerCase = name.toLowerCase();
                 if (lowerCase.trim().isEmpty())
                 {
                     System.out.println(redColorCode + "Error: Habit name cannot be empty." + whiteColorCode);
@@ -325,24 +327,26 @@ public class Functions
                     System.out.println(redColorCode + "Error: Habit name must be at least 3 characters long." + whiteColorCode);
                     flag = true;
                 }
-//                else if (lowerCase.trim().matches("[a-zA-Z0-9 ]+"))
-//                {
-//                    System.out.println(redColorCode + "Error: Habit name can only contain letters, and spaces." + whiteColorCode);
-//                    flag = true;
-//                }
+                // to check if the habit name contains special characters
+                else if (lowerCase.trim().matches(".*[^a-zA-Z0-9\\s].*"))
+                {
+                    System.out.println(redColorCode + "Error: Habit name contains special characters." + whiteColorCode);
+                    flag = true;
+                }
+                // to check if the habit name contains digits
                 boolean containsDigits = false;
                 for (int i = 0; i < lowerCase.length(); i++)
                 {
                     if (Character.isDigit(lowerCase.charAt(i)))
                     {
                         containsDigits = true;
-                        flag=true;
+                        flag = true;
                         break;
                     }
                 }
                 if (containsDigits)
                 {
-                    System.out.println(redColorCode+"Error: Habit name contains digits"+whiteColorCode);
+                    System.out.println(redColorCode + "Error: Habit name contains digits" + whiteColorCode);
                 }
                 Database.retrieveDataIntoArray(info);
 
@@ -350,8 +354,9 @@ public class Functions
                 {
                     System.out.println(redColorCode + "Error: Habit already exists." + whiteColorCode);
                     flag = true;
-
                 }
+                //assign the lowercase habit name to the name variable
+                name=lowerCase;
 
             }
             while (flag);
@@ -369,6 +374,12 @@ public class Functions
                 else if (description.trim().length() < 3)
                 {
                     System.out.println(redColorCode + "Error: Habit description must be at least 3 characters long." + whiteColorCode);
+                    flag = true;
+                }
+                // to check if the habit description contains special characters
+                else if (description.trim().matches(".*[^a-zA-Z0-9\\s].*"))
+                {
+                    System.out.println(redColorCode + "Error: Habit name contains special characters." + whiteColorCode);
                     flag = true;
                 }
             }
@@ -391,9 +402,11 @@ public class Functions
                 }
             }
             while (flag);
+            // to add habit into db
             myActivity.setName(name);
             myActivity.setDescription(description);
             myActivity.setGoal(goal);
+            // setting default values of completed days and progress bar
             myActivity.setCompletedDays(completedDays);
             myActivity.setProgressBar(progressBar);
             boolean isWritten = Database.writeData(myActivity, info);
@@ -416,8 +429,9 @@ public class Functions
     // to update existing habit
     public static void updateHabit(UserLogin info)
     {
-        // Database.retrieveData(info);
+        // to get the user id
         int userId = Database.activeUserId(info);
+        // to check if the habit exists
         boolean isDataExist = Database.displayGeneralHabitInfo(info);
         if (isDataExist)
         {
@@ -425,7 +439,7 @@ public class Functions
             int completedDays;
             int habitId;
             String achievement;
-            System.out.println(redColorCode+"Press Enter to continue if no input option appears"+whiteColorCode);
+            System.out.println(redColorCode + "Press Enter to continue if no input option appears" + whiteColorCode);
             input.nextLine();
             System.out.println("Which Habit would you like to update? ");
             System.out.print("Enter Habit's ID: ");
@@ -434,11 +448,13 @@ public class Functions
                 habitId = input.nextInt();
                 input.nextLine();
                 boolean flag = false;
+                // to check if the habit id is valid
                 boolean isHabitExist = Database.checkHabitId(habitId, userId);
                 if (isHabitExist)
                 {
                     do
                     {
+                        // fetching number of day have been completed so far
                         int habitDays = Database.habitDays(habitId);
                         System.out.print("How many days have been completed so far? ");
                         completedDays = input.nextInt();
@@ -453,7 +469,6 @@ public class Functions
                             {
                                 if (completedDays >= 1 && completedDays <= 29)
                                 {
-                                    // input is valid.
                                     StringBuilder progressBarBuilder = new StringBuilder(progressBar);
                                     for (int i = 0; i < completedDays; i++)
                                     {
@@ -467,10 +482,10 @@ public class Functions
                                     }
                                     break;
                                 }
+                                // to check if the habit is completed
                                 else if (completedDays == 30)
                                 {
                                     flag = false;
-//                                    System.out.println("NOTE: Minimum length should be 5 characters.");
                                     System.out.print("What are your Achievements? ");
                                     input.nextLine();
                                     achievement = input.nextLine();
@@ -488,8 +503,11 @@ public class Functions
                                         }
                                         else
                                         {
+                                            //to fetch habit name
                                             String habitName = Database.habitName(habitId);
+                                            //to delete habit from general habit table
                                             Database.deleteData(habitId);
+                                            //to add habit into history table
                                             Activity data = new Activity(habitName, achievement);
                                             boolean chk = Database.writeHistory(info, data);
                                             if (chk)
@@ -540,46 +558,37 @@ public class Functions
     // to show habit from db
     public static void showHabit(UserLogin info)
     {
-        System.out.println(MINT_COLOR_CODE + "---------------- Habits ---------------\n" + whiteColorCode);
+        System.out.println(MINT_COLOR_CODE + "\t\t\t\t\t Habits \n" + whiteColorCode);
         Database.displayCompleteHabitInfo(info);
     }
 
     // to delete habit from db
     public static void deleteHabit(UserLogin info)
     {
-//        Database.retrieveDataIntoArray(info);
         System.out.println(MINT_COLOR_CODE + "\t\t\t\t\t Habits \n" + whiteColorCode);
-
+        // to check if the habit exists
         boolean isDataExists = Database.displayGeneralHabitInfo(info);
         if (isDataExists)
         {
             int delId;
             // data delete
-            System.out.println(redColorCode+"Press Enter to continue if no input option appears"+whiteColorCode);
+            System.out.println(redColorCode + "Press Enter to continue if no input option appears" + whiteColorCode);
             input.nextLine();
             System.out.println("Which Habit would you like to delete? ");
             System.out.print("Enter Habit's ID: ");
-//            input.nextLine();
-
             try
             {
                 delId = input.nextInt();
                 int userID = Database.activeUserId(info);// bug fixed
+                // to check if the habit id is valid
                 boolean hasHabitFound = Database.checkHabitId(delId, userID);
                 if (hasHabitFound)
                 {
                     String habitName = Database.habitName(delId);
-                    Activity data=new Activity();
+                    Activity data = new Activity();
                     data.setName(habitName);
                     Database.writeDeleted(info, data);
-//                    if (isWritten)
-//                    {
-//                        System.out.println(greenColorCode + "Habit has been deleted!" + whiteColorCode);
-//                    }
-//                    else
-//                    {
-//                        System.out.println(redColorCode + "Error: Some problem occurred." + whiteColorCode);
-//                    }
+                    // to delete habit from general habit table
                     boolean ckh = Database.deleteData(delId);
                     if (ckh)
                     {
@@ -632,9 +641,10 @@ public class Functions
         Random rand = new Random();
         int randIndex = rand.nextInt(inspiration.size());
         String randomString = inspiration.get(randIndex);
-        System.out.println(yellowColor+randomString+whiteColorCode);
+        System.out.println(yellowColor + randomString + whiteColorCode);
     }
 
+    //to show history
     public static void showHistory(UserLogin info)
     {
         System.out.println(MINT_COLOR_CODE + "\t\t\t\t\t History \n" + whiteColorCode);
@@ -642,15 +652,17 @@ public class Functions
         Database.displayHistory(info);
     }
 
+    //to show user info
     public static void showUserInfo(UserLogin info)
     {
         System.out.println(MINT_COLOR_CODE + "\t\t\t\t\t User Info \n" + whiteColorCode);
         Database.showUserInfo(info);
     }
 
-    public static void showDeletedHabit(UserLogin info)
-    {
-        System.out.println(MINT_COLOR_CODE + "\t\t\t\t\t Deleted Habits \n" + whiteColorCode);
-        Database.displayDeletedHabitInfo(info);
-    }
+    //to show deleted habit
+//    public static void showDeletedHabit(UserLogin info)
+//    {
+//        System.out.println(MINT_COLOR_CODE + "\t\t\t\t\t Deleted Habits \n" + whiteColorCode);
+//        Database.displayDeletedHabitInfo(info);
+//    }
 }

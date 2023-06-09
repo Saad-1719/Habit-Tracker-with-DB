@@ -6,8 +6,7 @@ public class Database
     static String yellowColor = "\u001B[93m";
     static String whiteColorCode = "\u001B[90m";
     static String redColorCode = "\u001B[31m";
-    // To store habit id and habit name of active user
-//    protected static ArrayList<Integer> storeActivityId = new ArrayList<>();
+    // To store habit name of active user
     protected static ArrayList<String> storeActivityName = new ArrayList<>();
 
     //TO obtain id of active user
@@ -46,12 +45,9 @@ public class Database
             String query = "select * from activity where userid = '" + c + "';";
             Statement smt = con.createStatement();
             ResultSet show = smt.executeQuery(query);
-//            storeActivityId.clear();
             storeActivityName.clear();
             while (show.next())
             {
-//                int id = show.getInt(1);
-//                storeActivityId.add(id);
                 String name = show.getString(2);
                 storeActivityName.add(name);
             }
@@ -90,17 +86,17 @@ public class Database
 //            }
 //            else
 //            {
-                String query = "insert into activity(name,description,goal,bar,completeddays,userid)values(?,?,?,?,?,?)";
-                PreparedStatement pstmt = con.prepareStatement(query);
-                //set values of parameter
-                pstmt.setString(1, info.getName());
-                pstmt.setString(2, info.getDescription());
-                pstmt.setString(3, info.getGoal());
-                pstmt.setString(4, info.getProgressBar());
-                pstmt.setInt(5, info.getCompletedDays());
-                pstmt.setInt(6, fetchId);
-                pstmt.executeUpdate();
-                entrychk = true;
+            String query = "insert into activity(name,description,goal,bar,completeddays,userid)values(?,?,?,?,?,?)";
+            PreparedStatement pstmt = con.prepareStatement(query);
+            //set values of parameter
+            pstmt.setString(1, info.getName());
+            pstmt.setString(2, info.getDescription());
+            pstmt.setString(3, info.getGoal());
+            pstmt.setString(4, info.getProgressBar());
+            pstmt.setInt(5, info.getCompletedDays());
+            pstmt.setInt(6, fetchId);
+            pstmt.executeUpdate();
+            entrychk = true;
 //            }
             con.close();
             pstmt.close();
@@ -140,10 +136,9 @@ public class Database
         return flag;
     }
 
-    //a function similar to retrieve but with boolean
+    //to show habits of active user
     public static void displayCompleteHabitInfo(UserLogin info)//change from boolean
     {
-//        boolean chk = false;
         try
         {
             //jdbc code
@@ -176,19 +171,10 @@ public class Database
             if (!hasData)
             {
                 System.out.println(redColorCode + "No Data available" + whiteColorCode);
-//                chk = true;
             }
             con.close();
             smt.close();
             show.close();
-//            while (!show.next())
-//            {
-//
-//                System.out.println("No Data available");
-//                hasData=false;
-//                chk=true;
-//                break;
-//            }
         }
         catch (Exception e)
         {
@@ -216,9 +202,11 @@ public class Database
                 System.out.println(yellowColor);
                 int id = show.getInt(1);
                 String name = show.getString(2);
+                String time = show.getString(5);
                 int days = show.getInt("completeddays");
                 System.out.println("Habit ID: " + id);
                 System.out.println("Habit Name: " + name);
+                System.out.println("Last updated: " + time);
                 System.out.println("Number of days completed: " + days);
                 System.out.println("-----------------------------------------");
                 hasData = true;
@@ -339,7 +327,6 @@ public class Database
             while (show.next())
             {
                 System.out.println(yellowColor);
-                //int num= show.getInt(1);
                 String habitName = show.getString(2);
                 String impression = show.getString(3);
                 String fTime = show.getString(4);
@@ -388,6 +375,7 @@ public class Database
         return days;
     }
 
+    //to show user info
     public static void showUserInfo(UserLogin info)
     {
 
@@ -426,6 +414,7 @@ public class Database
 
     }
 
+    //to check habit id
     public static boolean checkHabitId(int habitId, int userId)
     {
         boolean hasFound = false;
@@ -451,6 +440,7 @@ public class Database
         return hasFound;
     }
 
+    //to get habit days
     public static boolean habitCounter(UserLogin id)
     {
         boolean entrychk = false;
@@ -480,6 +470,7 @@ public class Database
         return entrychk;
     }
 
+    //to write data in deleted table
     public static boolean writeDeleted(UserLogin id, Activity data)
     {
         boolean flag = false;
@@ -509,6 +500,7 @@ public class Database
         return flag;
     }
 
+    //to display deleted habit info
     public static void displayDeletedHabitInfo(UserLogin info)
     {
         try
@@ -523,7 +515,6 @@ public class Database
             while (show.next())
             {
                 System.out.println(yellowColor);
-                //int num= show.getInt(1);
                 String habitName = show.getString(2);
                 String fTime = show.getString(3);
                 System.out.println("Name: " + habitName);

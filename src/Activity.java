@@ -5,11 +5,11 @@ public class Activity
 
     public Activity()
     {
-        name="";
-        description="";
-        goal="";
-        completedDays=0;
-        progressBar="";
+        name = "";
+        description = "";
+        goal = "";
+        completedDays = 0;
+        progressBar = "";
     }
 
     public Activity(String name, String achievement)

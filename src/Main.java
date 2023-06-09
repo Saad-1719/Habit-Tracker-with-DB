@@ -129,7 +129,7 @@ public class Main
                     Functions.showHistory(info);
                     break;
                 case 6:
-                    Functions.showDeletedHabit(info);
+//                    Functions.showDeletedHabit(info);
                     break;
                 case 7:
                     Functions.quotes();
