@@ -152,7 +152,7 @@ public class Database
             boolean hasData = false;
             while (show.next())
             {
-                System.out.println(yellowColor);
+                System.out.print(yellowColor);
                 int id = show.getInt(1);
                 String name = show.getString(2);
                 String description = show.getString(3);
@@ -164,8 +164,7 @@ public class Database
                 System.out.println("Progress Bar: " + bar);
                 System.out.println("Created At: " + time);
                 System.out.println("--------------------------------------");
-
-                System.out.println(whiteColorCode);
+                System.out.print(whiteColorCode);
                 hasData = true;
             }
             if (!hasData)
@@ -199,7 +198,7 @@ public class Database
             boolean hasData = false;
             while (show.next())
             {
-                System.out.println(yellowColor);
+                System.out.print(yellowColor);
                 int id = show.getInt(1);
                 String name = show.getString(2);
                 String time = show.getString(5);
@@ -326,7 +325,7 @@ public class Database
             boolean hasData = false;
             while (show.next())
             {
-                System.out.println(yellowColor);
+                System.out.print(yellowColor);
                 String habitName = show.getString(2);
                 String impression = show.getString(3);
                 String fTime = show.getString(4);
@@ -334,7 +333,7 @@ public class Database
                 System.out.println("Final Impression: " + impression);
                 System.out.println("Completed Time: " + fTime);
                 System.out.println("        -----------------------------       ");
-                System.out.println(whiteColorCode);
+                System.out.print(whiteColorCode);
                 hasData = true;
             }
             if (!hasData)
@@ -387,7 +386,7 @@ public class Database
             ResultSet rst = smt.executeQuery(query);
             while (rst.next())
             {
-                System.out.println(yellowColor);
+                System.out.print(yellowColor);
                 int userId = rst.getInt(1);
                 String username = rst.getString(2);
                 String FirstName = rst.getString(5);
@@ -400,7 +399,7 @@ public class Database
                 System.out.println("Last Name: " + LastName);
                 System.out.println("Age: " + Age);
                 System.out.println("Created Time: " + cTime);
-                System.out.println(whiteColorCode);
+                System.out.print(whiteColorCode);
             }
             con.close();
             smt.close();
@@ -514,13 +513,13 @@ public class Database
             boolean hasData = false;
             while (show.next())
             {
-                System.out.println(yellowColor);
+                System.out.print(yellowColor);
                 String habitName = show.getString(2);
                 String fTime = show.getString(3);
                 System.out.println("Name: " + habitName);
                 System.out.println("Deleted Time: " + fTime);
                 System.out.println("        -----------------------------       ");
-                System.out.println(whiteColorCode);
+                System.out.print(whiteColorCode);
                 hasData = true;
             }
             if (!hasData)

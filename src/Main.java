@@ -64,7 +64,7 @@ public class Main
                     // Depart and Exit.
                     isRunning = false;
                     System.out.println(" ");
-                    System.out.println(MINT_COLOR_CODE+"Application Terminated. "+WHITE_COLOR_CODE);
+                    System.out.println(MINT_COLOR_CODE + "Application Terminated. " + WHITE_COLOR_CODE);
                     break;
             }
         }
@@ -129,7 +129,7 @@ public class Main
                     Functions.showHistory(info);
                     break;
                 case 6:
-//                    Functions.showDeletedHabit(info);
+                    Functions.showDeletedHabit(info);
                     break;
                 case 7:
                     Functions.quotes();
@@ -138,15 +138,18 @@ public class Main
                     Functions.showUserInfo(info);
                     break;
                 case 9:
+                    Functions.developerInfo();
+                    break;
+                case 10:
 //                    displayMenu();
-                    System.out.println("Logged Out...");
+                    System.out.println(MINT_COLOR_CODE+"Logged Out..."+WHITE_COLOR_CODE);
                     break;
                 default:
 //                    System.out.println(" ");
                     System.out.println(RED_COLOR_CODE + "Error: Invalid Menu Choice" + WHITE_COLOR_CODE);// multiple times appearing
                     break;
             }
-            if (selection == 9)
+            if (selection == 10)
             {
                 break;//bug fix
             }
@@ -168,7 +171,8 @@ public class Main
         System.out.println("Press [6] To View Deleted Habits");
         System.out.println("Press [7] To View Inspiring Quote of the Day.");
         System.out.println("Press [8] To View User Info.");
-        System.out.println("Press [9] To Logout and Disembark.");
+        System.out.println("Press [9] To View Developer Info.");
+        System.out.println("Press [10] To Logout and Disembark.");
         System.out.print("Enter your choice: ");
     }
 }

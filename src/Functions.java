@@ -429,6 +429,7 @@ public class Functions
     // to update existing habit
     public static void updateHabit(UserLogin info)
     {
+        System.out.println(MINT_COLOR_CODE + "\t\t\t\t\t Enhance Progress \n" + whiteColorCode);
         // to get the user id
         int userId = Database.activeUserId(info);
         // to check if the habit exists
@@ -629,6 +630,7 @@ public class Functions
     //quotes
     public static void quotes()
     {
+        System.out.println(MINT_COLOR_CODE + "\t\t\t\t\t Quote of the day \n" + whiteColorCode);
         ArrayList<String> inspiration = new ArrayList<>();
         inspiration.add("It's the smallest actions everyday that determine who you are ...");
         inspiration.add("All big things come from small beginnings. The seed of every habit is single, tiny decision.");
@@ -660,9 +662,33 @@ public class Functions
     }
 
     //to show deleted habit
-//    public static void showDeletedHabit(UserLogin info)
-//    {
-//        System.out.println(MINT_COLOR_CODE + "\t\t\t\t\t Deleted Habits \n" + whiteColorCode);
-//        Database.displayDeletedHabitInfo(info);
-//    }
+    public static void showDeletedHabit(UserLogin info)
+    {
+        System.out.println(MINT_COLOR_CODE + "\t\t\t\t\t Deleted Habits \n" + whiteColorCode);
+        Database.displayDeletedHabitInfo(info);
+    }
+
+    //to show developer info
+    public static void developerInfo()
+    {
+        System.out.println(MINT_COLOR_CODE + "\t\t\t\t\t Developer Info \n" + whiteColorCode);
+        System.out.print(yellowColor);
+//            Thread.sleep(900);
+            System.out.println("Name: Muhammad Saad Jamil");
+            System.out.println("ID: 01-131222-023");
+            System.out.println("Database Designer");
+            System.out.println(" ");
+//            Thread.sleep(900);
+            System.out.println("Name: Zainab Asif");
+            System.out.println("ID: 01-131222-050");
+            System.out.println("Habit Functionality Designer");
+            System.out.println(" ");
+//            Thread.sleep(900);
+            System.out.println("Name: Faaiz Muzammil");
+            System.out.println("ID: 01-131222-054");
+            System.out.println("Login and Signup Designer");
+            System.out.print(whiteColorCode);
+
+
+    }
 }
