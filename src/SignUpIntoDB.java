@@ -33,8 +33,8 @@ public class SignUpIntoDB
     //TO CHECK IF THERE ARE MORE THAN ONE USER WITH SAME USERNAME
     public static boolean userCheck(UserSignup info)
     {
-        boolean flag = false;
-        boolean chk = false;
+        boolean flag = true;
+        boolean chk = true;
         try
         {
             //jdbc code
@@ -49,10 +49,10 @@ public class SignUpIntoDB
             int count = rs.getInt(1);
             if (count == 1)
             {
-                chk = true;
+                chk = false;
             }
             con.close();
-            flag = true;
+            flag = false;
             return chk;
         }
         catch (Exception e)

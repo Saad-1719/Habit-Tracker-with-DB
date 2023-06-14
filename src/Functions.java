@@ -3,242 +3,224 @@ import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Random;
 import java.util.Scanner;
-
 public class Functions
 {
     static Scanner input = new Scanner(System.in);
     static LocalTime currentTime = LocalTime.now();
     static String username, createPassword, firstName, lastName;
     static int age = 0;
-    static boolean flag;
-    private static final String MINT_COLOR_CODE = "\u001B[38;5;85m";
+    static String mintColorCode = "\u001B[38;5;85m";
     static String whiteColorCode = "\u001B[97m";
     static String redColorCode = "\u001B[31m";
     static String greenColorCode = "\u001B[92m";
     static String yellowColor = "\u001B[93m";
-
+    // User Choice for both main loops.
+    public static int getUserChoice(Scanner input)
+    {
+        int choice = 0;
+        try
+        {
+            choice = input.nextInt();
+            input.nextLine();
+        }
+        catch (InputMismatchException e)
+        {
+            System.out.println(" ");
+            System.out.println(redColorCode + "Error: The input is out of bounds." + whiteColorCode);
+            input.nextLine();
+        }
+        return choice;
+    }
     // to add new user
     public static void createUserName()
     {
         input.nextLine();
-        do
+        while (true)
         {
-            System.out.print("Enter a username : ");
-            username = input.nextLine();
-            if (username.length() < 4)
+            System.out.print("Enter a username: ");
+            username = input.nextLine().toLowerCase();
+            if (username.length() < 5)
             {
-                System.out.println(redColorCode + "Error: Ensure that your username has a minimum of 4 characters." + whiteColorCode);
-                signup(); //bug fixed
+                System.out.println(redColorCode + "Error: Username must be a minimum of 5 characters." + whiteColorCode);
+                continue;
             }
-            else if (username.contains(" "))
+            if (username.contains(" "))
             {
-                System.out.println(redColorCode + "Error: Ensure that no spaces are included." + whiteColorCode);
-                signup();//bug fixed
+                System.out.println(redColorCode + "Error: Username cannot contain spaces." + whiteColorCode);
+                continue;
             }
-            else
+            // Added Changes
+            boolean hasLetters = false;
+            for (int i = 0; i < username.length(); i++)
             {
-                for (int i = 0; i < username.length(); i++)
+                // Added Changes.
+                if (Character.isLetter(username.charAt(i)))
                 {
-                    if ((username.charAt(i) >= 'A') && (username.charAt(i) <= 'Z'))
-                    {
-                        System.out.println(redColorCode + "Error: Ensure that your username is written in lowercase letters." + whiteColorCode);
-                        signup();//bug fixed
-                        break;
-                    }
+                    hasLetters = true;
                 }
             }
+            if (!hasLetters)
+            {
+                System.out.println(redColorCode + "Error: Username does not contain letters and digits." + whiteColorCode);
+                continue;
+            }
             UserSignup info = new UserSignup(username);
-            boolean answer = SignUpIntoDB.userCheck(info);
-            if (answer)
+            boolean isAvailable = SignUpIntoDB.userCheck(info);
+            if (!isAvailable)
             {
                 System.out.println(redColorCode + "Error: Username Unavailable." + whiteColorCode);
-                flag = true;
             }
             else
             {
                 System.out.println(greenColorCode + "Username Added!" + whiteColorCode);
-
-                flag = false;
+                break;
             }
         }
-        while (flag);
     }
-
     // Creating New Password.
     public static void introducePassword()
     {
-        do
+//        input.nextLine(); // Fix Added
+        boolean isValidPassword = false;
+        while (!isValidPassword)
         {
-            flag = false;
-            System.out.print("Create a password : ");
+            System.out.print("Create a password: ");
             createPassword = input.nextLine();
-            int password_length = createPassword.length();
-            if (password_length < 5)
+            if (createPassword.length() < 5)
             {
-                System.out.println(redColorCode + "Error: Ensure that your password has a minimum of 5 characters." + whiteColorCode);
-                flag = true;
+                System.out.println(redColorCode + "Error: Password must be a minimum of 5 characters." + whiteColorCode);
             }
-            for (int i = 0; i < password_length; i++)
+            else if (createPassword.length() > 10)
             {
-                if (Character.isWhitespace(createPassword.charAt(i)))
+                System.out.println(redColorCode + "Error: Password must be a maximum of 10 characters." + whiteColorCode);
+            }
+            else if (createPassword.contains(" "))
+            {
+                System.out.println(redColorCode + "Error: Password cannot contain spaces." + whiteColorCode);
+            }
+            else
+            {
+                System.out.print("Confirm password: ");
+                String confirmPassword;
+                confirmPassword=input.nextLine();
+                if(createPassword.equals(confirmPassword))
                 {
-                    System.out.println(redColorCode + "Error: Ensure that no spaces are included." + whiteColorCode);
-                    flag = true;
+                    isValidPassword = true;
+                }
+                else
+                {
+                    System.out.println(redColorCode+"Error: Password has not been confirmed."+whiteColorCode);
                 }
             }
         }
-        while (flag);
-        System.out.println(greenColorCode + "Password Added" + whiteColorCode);
-
+        System.out.println(greenColorCode + "Password Added!" + whiteColorCode);
     }
-
     // Creating New First Name.
     public static void introduceFirstName()
     {
-        do
+
+        boolean flag = true;
+        while (flag)
         {
-            flag = false;
-            System.out.print("Enter First name : ");
-            firstName = input.nextLine();
-            if (firstName.isBlank())
+            System.out.print("Enter First name: ");
+            firstName = input.nextLine().trim().toLowerCase();
+            if (firstName.length() < 3)
             {
-                System.out.println(redColorCode + "Error: First Name isn't entered." + whiteColorCode);
-                flag = true;
+                System.out.println(redColorCode + "Error: First Name must be a minimum of 3 characters." + whiteColorCode);
             }
-            else if (firstName.trim().matches(".*[^a-zA-Z0-9\\s].*"))
+            else if (firstName.matches(".*[^a-zA-Z0-9\\s].*"))
             {
                 System.out.println(redColorCode + "Error: First name contains special characters." + whiteColorCode);
-                flag = true;
             }
-            for (int i = 0; i < firstName.length(); i++)
+            else if (firstName.matches(".*\\d+.*"))
             {
-                if (Character.isWhitespace(firstName.charAt(i)))
-                {
-                    System.out.println(redColorCode + "Error: Ensure that no spaces are included." + whiteColorCode);
-                    flag = true;
-                    break;
-                }
+                System.out.println(redColorCode + "Error: First name contains digits." + whiteColorCode);
             }
-            boolean containsDigits = false;
-            for (int i = 0; i < firstName.length(); i++)
+            else
             {
-                if (Character.isDigit(firstName.charAt(i)))
-                {
-                    containsDigits = true;
-                    flag = true;
-                    break;
-                }
-            }
-            if (containsDigits)
-            {
-                System.out.println(redColorCode + "Error: First name contains digits" + whiteColorCode);
+                flag = false;
+                System.out.println(greenColorCode + "First Name Added!" + whiteColorCode);
             }
         }
-        while (flag);
-        System.out.println(greenColorCode + "First Name Added" + whiteColorCode);
-
     }
-
     // Creating New Last Name.
     public static void introduceLastName()
     {
-        do
+        boolean flag = true;
+        while (flag)
         {
-            flag = false;
-            System.out.print("Enter Last name : ");
-            lastName = input.nextLine();
-            if (lastName.isBlank())
+            System.out.print("Enter Last name: ");
+            lastName = input.nextLine().trim().toLowerCase();
+            if (lastName.length() < 3)
             {
-                System.out.println(redColorCode + "Error: Last Name isn't entered." + whiteColorCode);
-                flag = true;
+                System.out.println(redColorCode + "Error: Last Name must be a minimum of 3 characters." + whiteColorCode);
             }
-            else if (lastName.trim().matches(".*[^a-zA-Z0-9\\s].*"))
+            else if (lastName.matches(".*[^a-zA-Z0-9\\s].*"))
             {
                 System.out.println(redColorCode + "Error: Last name contains special characters." + whiteColorCode);
-                flag = true;
             }
-            for (int i = 0; i < lastName.length(); i++)
+            else if (lastName.matches(".*\\d+.*"))
             {
-                if (Character.isWhitespace(lastName.charAt(i)))
-                {
-                    System.out.println(redColorCode + "Error: Ensure that no spaces are included." + whiteColorCode);
-                    flag = true;
-                    break;
-                }
+                System.out.println(redColorCode + "Error: Last name contains digits." + whiteColorCode);
             }
-            boolean containsDigits = false;
-            for (int j = 0; j < lastName.length(); j++)
+            else
             {
-                if (Character.isDigit(lastName.charAt(j)))
-                {
-                    containsDigits = true;
-                    flag = true;
-                    break;
-                }
-            }
-            if (containsDigits)
-            {
-                System.out.println(redColorCode + "Error: Last name contains digits" + whiteColorCode);
+                flag = false;
+                System.out.println(greenColorCode + "Last Name Added!" + whiteColorCode);
             }
         }
-        while (flag);
-        System.out.println(greenColorCode + "Last Name Added" + whiteColorCode);
-
     }
-
     // Setting New User's Age.
     public static void introduceAge()
     {
-        do
+        boolean flag = true;
+        Scanner input = new Scanner(System.in);
+        while (flag)
         {
-            System.out.print("Enter Age : ");
+            System.out.print("Enter Age: ");
             try
             {
                 age = input.nextInt();
-                if (age < 5 || age > 200)
+                input.nextLine();
+                if (age < 5 || age > 100)
                 {
-                    System.out.println(redColorCode + "Error: Ensure that a valid value is entered." + whiteColorCode);
-                    flag = true;
+                    System.out.println(redColorCode + "Error: A valid age must be entered." + whiteColorCode);
                 }
                 else
                 {
                     flag = false;
+                    System.out.println(greenColorCode + "Age Added!" + whiteColorCode);
                 }
             }
             catch (InputMismatchException e)
             {
-                System.out.println(redColorCode + "Error: Invalid Input.Please enter a valid integer value" + whiteColorCode);
+                System.out.println(redColorCode + "Error: The input is out of bounds." + whiteColorCode);
                 input.nextLine();
-                flag = true;
             }
         }
-        while (flag);
-        System.out.println(greenColorCode + "Age Added" + whiteColorCode);
-
     }
-
     //signup function to add new user
     public static void signup()
     {
-        //Function to create a new username
         System.out.println(redColorCode + "Press Enter to continue if no input option appears" + whiteColorCode);
+        //function to create username
         createUserName();
-        //Function to create a new password
+        //function to introduce password
         introducePassword();
-        //Function to create first name
+        //function to introduce first name
         introduceFirstName();
-        //Function to create last name
+        //function to introduce last name
         introduceLastName();
-        //Function to create age
+        //function to introduce age
         introduceAge();
+        //assigning data
         UserSignup info = new UserSignup(username, createPassword, firstName, lastName, age);
+        //to check if signup is completed
         boolean isSignUp = SignUpIntoDB.signUp(info);
-        // to check if the user is signed up or not
         if (isSignUp)
         {
             System.out.println(" ");
-            System.out.println(greenColorCode + "Completed! Thank you for Signing up :)" + whiteColorCode);
-
+            System.out.println(greenColorCode + "Completed, Thank you for Signing up! :)" + whiteColorCode);
             Main.main(new String[]{});
         }
         else
@@ -246,12 +228,12 @@ public class Functions
             System.out.println(redColorCode + "Something went wrong :(" + whiteColorCode);
         }
     }
-
     // to forget password
     public static void forgetPassword()
     {
         try
         {
+            System.out.print(mintColorCode + "\t\t\t\t\t Forget Password \n" + whiteColorCode);
             System.out.println(" ");
             System.out.println(redColorCode + "Press Enter to continue if no input option appears" + whiteColorCode);
             input.nextLine();
@@ -266,36 +248,38 @@ public class Functions
         }
         catch (Exception e)
         {
-            System.out.println(redColorCode + "Error: Invalid Input.Please enter a valid integer value" + whiteColorCode);
+            System.out.println(redColorCode + "Error: The input is out of bounds." + whiteColorCode);
             input.nextLine();
+            return;
         }
-        // to check if the credentials are matched or not
+        //matching credentials from database
         boolean isMatched = password.matchInfo(username, firstName, lastName, age);
         if (isMatched)
         {
-            System.out.println(greenColorCode + "Credentials have been matched." + whiteColorCode);
+            System.out.println(greenColorCode + "Credentials have been matched!" + whiteColorCode);
             System.out.println(" ");
+            input.nextLine();
+            // Update Old Password.
             introducePassword();
+            //updating password in the database
             boolean isUpdated = password.updatePassword(username, createPassword, firstName, lastName, age);
             if (isUpdated)
             {
-                System.out.println(greenColorCode + "Completed, Password has been updated." + whiteColorCode);
+                System.out.println(greenColorCode + "Completed, Password has been updated!" + whiteColorCode);
                 System.out.println(" ");
             }
             else
             {
-                System.out.println(redColorCode + "Error: Data not updated." + whiteColorCode);
+                System.out.println(redColorCode + "Error: Data has not been updated." + whiteColorCode);
                 System.out.println(" ");
             }
         }
         else
         {
-            System.out.println(redColorCode + "Error: Credentials not matched." + whiteColorCode);
+            System.out.println(redColorCode + "Error: Credentials have not been matched." + whiteColorCode);
             System.out.println(" ");
         }
-
     }
-
     // to add a habit into db
     public static void addHabit(UserLogin info)
     {
@@ -303,8 +287,9 @@ public class Functions
         String description;
         String goal;
         int completedDays = 0;
-        String progressBar = "-----------------------------";
+        String progressBar = "▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯";
         boolean flag;
+        System.out.println(mintColorCode + "\t\t\t\t\t Add a Habit \n" + whiteColorCode);
         Activity myActivity = new Activity("", "", "", 0, "");
         System.out.println(redColorCode + "Press Enter to continue if no input option appears" + whiteColorCode);
         boolean canAddHabit = Database.habitCounter(info);
@@ -333,6 +318,11 @@ public class Functions
                     System.out.println(redColorCode + "Error: Habit name contains special characters." + whiteColorCode);
                     flag = true;
                 }
+                else if (lowerCase.contains(" "))
+                {
+                    System.out.println(redColorCode + "Error: Habit name cannot contain spaces." + whiteColorCode);
+                    flag = true;
+                }
                 // to check if the habit name contains digits
                 boolean containsDigits = false;
                 for (int i = 0; i < lowerCase.length(); i++)
@@ -349,15 +339,13 @@ public class Functions
                     System.out.println(redColorCode + "Error: Habit name contains digits" + whiteColorCode);
                 }
                 Database.retrieveDataIntoArray(info);
-
                 if (Database.storeActivityName.contains(lowerCase))
                 {
                     System.out.println(redColorCode + "Error: Habit already exists." + whiteColorCode);
                     flag = true;
                 }
                 //assign the lowercase habit name to the name variable
-                name=lowerCase;
-
+                name = lowerCase;
             }
             while (flag);
             //habit description
@@ -374,12 +362,6 @@ public class Functions
                 else if (description.trim().length() < 3)
                 {
                     System.out.println(redColorCode + "Error: Habit description must be at least 3 characters long." + whiteColorCode);
-                    flag = true;
-                }
-                // to check if the habit description contains special characters
-                else if (description.trim().matches(".*[^a-zA-Z0-9\\s].*"))
-                {
-                    System.out.println(redColorCode + "Error: Habit name contains special characters." + whiteColorCode);
                     flag = true;
                 }
             }
@@ -413,11 +395,10 @@ public class Functions
             if (isWritten)
             {
                 System.out.println(greenColorCode + "Completed, Data Added!" + whiteColorCode);
-
             }
             else
             {
-                System.out.println(redColorCode + "Error: Something went wrong" + whiteColorCode);
+                System.out.println(redColorCode + "Error: Something went wrong :(" + whiteColorCode);
             }
         }
         else
@@ -425,18 +406,18 @@ public class Functions
             System.out.println(redColorCode + "Error: You can only add 5 habits." + whiteColorCode);
         }
     }
-
     // to update existing habit
     public static void updateHabit(UserLogin info)
     {
-        System.out.println(MINT_COLOR_CODE + "\t\t\t\t\t Enhance Progress \n" + whiteColorCode);
+        System.out.println(mintColorCode + "\t\t\t\t\t Enhance Progress \n" + whiteColorCode);
         // to get the user id
         int userId = Database.activeUserId(info);
         // to check if the habit exists
         boolean isDataExist = Database.displayGeneralHabitInfo(info);
         if (isDataExist)
         {
-            String progressBar = "-----------------------------";
+//            String progressBar = "-----------------------------";
+            String progressBar = "▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯";
             int completedDays;
             int habitId;
             String achievement;
@@ -458,11 +439,11 @@ public class Functions
                         // fetching number of day have been completed so far
                         int habitDays = Database.habitDays(habitId);
                         System.out.print("How many days have been completed so far? ");
-                        completedDays = input.nextInt();
+                        completedDays = input.nextInt()+habitDays;
                         if (completedDays <= habitDays)
                         {
                             System.out.println(redColorCode + "Error: You can't decline your progress days." + whiteColorCode);
-                            flag = true;// bug fixed
+                            flag = true;
                         }
                         else
                         {
@@ -473,7 +454,8 @@ public class Functions
                                     StringBuilder progressBarBuilder = new StringBuilder(progressBar);
                                     for (int i = 0; i < completedDays; i++)
                                     {
-                                        progressBarBuilder.setCharAt(i, '█');
+                                        progressBarBuilder.setCharAt(i, '▮');
+
                                     }
                                     progressBar = progressBarBuilder.toString();
                                     boolean ckh = Database.updateData(habitId, progressBar, completedDays);
@@ -532,13 +514,12 @@ public class Functions
                             catch (InputMismatchException e)
                             {
                                 System.out.println(" ");
-                                System.out.println(redColorCode + "Error: Input Error" + whiteColorCode);
+                                System.out.println(redColorCode + "Error: The input is out of bounds." + whiteColorCode);
                                 input.nextLine();
                             }
                         }
                     }
                     while (flag);
-
                 }
                 else
                 {
@@ -555,18 +536,16 @@ public class Functions
             }
         }
     }
-
     // to show habit from db
     public static void showHabit(UserLogin info)
     {
-        System.out.println(MINT_COLOR_CODE + "\t\t\t\t\t Habits \n" + whiteColorCode);
+        System.out.println(mintColorCode + "\t\t\t\t\t Ongoing Habits \n" + whiteColorCode);
         Database.displayCompleteHabitInfo(info);
     }
-
     // to delete habit from db
     public static void deleteHabit(UserLogin info)
     {
-        System.out.println(MINT_COLOR_CODE + "\t\t\t\t\t Habits \n" + whiteColorCode);
+        System.out.println(mintColorCode + "\t\t\t\t\t Delete a Habit \n" + whiteColorCode);
         // to check if the habit exists
         boolean isDataExists = Database.displayGeneralHabitInfo(info);
         if (isDataExists)
@@ -580,7 +559,7 @@ public class Functions
             try
             {
                 delId = input.nextInt();
-                int userID = Database.activeUserId(info);// bug fixed
+                int userID = Database.activeUserId(info);
                 // to check if the habit id is valid
                 boolean hasHabitFound = Database.checkHabitId(delId, userID);
                 if (hasHabitFound)
@@ -598,18 +577,18 @@ public class Functions
                 }
                 else
                 {
+                    System.out.println(" ");
                     System.out.println(redColorCode + "Error: Incorrect Habit ID." + whiteColorCode);
                 }
             }
             catch (InputMismatchException e)
             {
                 System.out.println(" ");
-                System.out.println(redColorCode + "Error: Input Error" + whiteColorCode);
+                System.out.println(redColorCode + "Error: The input is out of bounds" + whiteColorCode);
                 input.nextLine();
             }
         }
     }
-
     //Welcome notes
     public static void greetings(UserLogin info)
     {
@@ -626,11 +605,10 @@ public class Functions
             System.out.println("        Good Evening \uD83C\uDF06\uD83C\uDF06, " + info.getUsername() + "!");
         }
     }
-
     //quotes
     public static void quotes()
     {
-        System.out.println(MINT_COLOR_CODE + "\t\t\t\t\t Quote of the day \n" + whiteColorCode);
+        System.out.println(mintColorCode + "\t\t\t\t\t Quote of the day \n" + whiteColorCode);
         ArrayList<String> inspiration = new ArrayList<>();
         inspiration.add("It's the smallest actions everyday that determine who you are ...");
         inspiration.add("All big things come from small beginnings. The seed of every habit is single, tiny decision.");
@@ -645,50 +623,40 @@ public class Functions
         String randomString = inspiration.get(randIndex);
         System.out.println(yellowColor + randomString + whiteColorCode);
     }
-
     //to show history
     public static void showHistory(UserLogin info)
     {
-        System.out.println(MINT_COLOR_CODE + "\t\t\t\t\t History \n" + whiteColorCode);
-
+        System.out.println(mintColorCode + "\t\t\t\t\t Completed Habit History \n" + whiteColorCode);
         Database.displayHistory(info);
     }
-
     //to show user info
     public static void showUserInfo(UserLogin info)
     {
-        System.out.println(MINT_COLOR_CODE + "\t\t\t\t\t User Info \n" + whiteColorCode);
+        System.out.println(mintColorCode + "\t\t\t\t\t User Info \n" + whiteColorCode);
         Database.showUserInfo(info);
     }
-
     //to show deleted habit
     public static void showDeletedHabit(UserLogin info)
     {
-        System.out.println(MINT_COLOR_CODE + "\t\t\t\t\t Deleted Habits \n" + whiteColorCode);
+        System.out.println(mintColorCode + "\t\t\t\t\t Deleted Habit Habit \n" + whiteColorCode);
         Database.displayDeletedHabitInfo(info);
     }
-
     //to show developer info
     public static void developerInfo()
     {
-        System.out.println(MINT_COLOR_CODE + "\t\t\t\t\t Developer Info \n" + whiteColorCode);
+        System.out.println(mintColorCode + "\t\t\t\t\t Developers' Info \n" + whiteColorCode);
         System.out.print(yellowColor);
-//            Thread.sleep(900);
-            System.out.println("Name: Muhammad Saad Jamil");
-            System.out.println("ID: 01-131222-023");
-            System.out.println("Database Designer");
-            System.out.println(" ");
-//            Thread.sleep(900);
-            System.out.println("Name: Zainab Asif");
-            System.out.println("ID: 01-131222-050");
-            System.out.println("Habit Functionality Designer");
-            System.out.println(" ");
-//            Thread.sleep(900);
-            System.out.println("Name: Faaiz Muzammil");
-            System.out.println("ID: 01-131222-054");
-            System.out.println("Login and Signup Designer");
-            System.out.print(whiteColorCode);
-
-
+        System.out.println("Name: Muhammad Saad Jamil");
+        System.out.println("ID: 01-131222-023");
+        System.out.println("Database Designer");
+        System.out.println(" ");
+        System.out.println("Name: Zainab Asif");
+        System.out.println("ID: 01-131222-050");
+        System.out.println("Habit Functionality Designer");
+        System.out.println(" ");
+        System.out.println("Name: Faaiz Muzammil");
+        System.out.println("ID: 01-131222-054");
+        System.out.println("Login and Signup Designer");
+        System.out.print(whiteColorCode);
     }
 }
