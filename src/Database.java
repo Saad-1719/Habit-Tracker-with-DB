@@ -370,13 +370,11 @@ public class Database
             while (rst.next())
             {
                 System.out.print(yellowColor);
-                int userId = rst.getInt(1);
                 String username = rst.getString(2);
                 String FirstName = rst.getString(5);
                 String LastName = rst.getString(6);
                 String Age = rst.getString(7);
                 String cTime = rst.getString(4);
-                System.out.println("User ID: " + userId);
                 System.out.println("UserName: " + username);
                 System.out.println("First Name: " + FirstName);
                 System.out.println("Last Name: " + LastName);
