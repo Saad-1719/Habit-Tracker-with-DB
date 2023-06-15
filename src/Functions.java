@@ -41,19 +41,23 @@ public class Functions
             username = input.nextLine().toLowerCase();
             if (username.length() < 5)
             {
-                System.out.println(redColorCode + "Error: Username must be a minimum of 5 characters." + whiteColorCode);
+                System.out.println(redColorCode + "Error: Username must be atleast 5 characters long." + whiteColorCode);
                 continue;
             }
-            if (username.contains(" "))
+            else if (username.contains(" "))
             {
                 System.out.println(redColorCode + "Error: Username cannot contain spaces." + whiteColorCode);
                 continue;
             }
-            // Added Changes
+            else if(username.length() > 10)
+            {
+                System.out.println(redColorCode + "Error: Username must be less than 10 characters." + whiteColorCode);
+                continue;
+            }
+            // to check if username has letters
             boolean hasLetters = false;
             for (int i = 0; i < username.length(); i++)
             {
-                // Added Changes.
                 if (Character.isLetter(username.charAt(i)))
                 {
                     hasLetters = true;
@@ -102,14 +106,14 @@ public class Functions
             {
                 System.out.print("Confirm password: ");
                 String confirmPassword;
-                confirmPassword=input.nextLine();
-                if(createPassword.equals(confirmPassword))
+                confirmPassword = input.nextLine();
+                if (createPassword.equals(confirmPassword))
                 {
                     isValidPassword = true;
                 }
                 else
                 {
-                    System.out.println(redColorCode+"Error: Password has not been confirmed."+whiteColorCode);
+                    System.out.println(redColorCode + "Error: Password has not been confirmed." + whiteColorCode);
                 }
             }
         }
@@ -118,7 +122,6 @@ public class Functions
     // Creating New First Name.
     public static void introduceFirstName()
     {
-
         boolean flag = true;
         while (flag)
         {
@@ -126,7 +129,7 @@ public class Functions
             firstName = input.nextLine().trim().toLowerCase();
             if (firstName.length() < 3)
             {
-                System.out.println(redColorCode + "Error: First Name must be a minimum of 3 characters." + whiteColorCode);
+                System.out.println(redColorCode + "Error: First Name must be atleast 3 characters long." + whiteColorCode);
             }
             else if (firstName.matches(".*[^a-zA-Z0-9\\s].*"))
             {
@@ -153,7 +156,7 @@ public class Functions
             lastName = input.nextLine().trim().toLowerCase();
             if (lastName.length() < 3)
             {
-                System.out.println(redColorCode + "Error: Last Name must be a minimum of 3 characters." + whiteColorCode);
+                System.out.println(redColorCode + "Error: Last Name must be atleast 3 characters long." + whiteColorCode);
             }
             else if (lastName.matches(".*[^a-zA-Z0-9\\s].*"))
             {
@@ -225,7 +228,7 @@ public class Functions
         }
         else
         {
-            System.out.println(redColorCode + "Something went wrong :(" + whiteColorCode);
+            System.out.println(redColorCode + "Error: Something went wrong :(" + whiteColorCode);
         }
     }
     // to forget password
@@ -234,15 +237,16 @@ public class Functions
         try
         {
             System.out.print(mintColorCode + "\t\t\t\t\t Forget Password \n" + whiteColorCode);
+            System.out.print(mintColorCode + "\t\t\t\t\t We'll help you recover \n" + whiteColorCode);
             System.out.println(" ");
             System.out.println(redColorCode + "Press Enter to continue if no input option appears" + whiteColorCode);
             input.nextLine();
             System.out.print("Enter a username: ");
-            username = input.nextLine();
+            username = input.nextLine().toLowerCase();
             System.out.print("Enter First name: ");
-            firstName = input.nextLine();
+            firstName = input.nextLine().toLowerCase();
             System.out.print("Enter Last name: ");
-            lastName = input.nextLine();
+            lastName = input.nextLine().toLowerCase();
             System.out.print("Enter Age: ");
             age = input.nextInt();
         }
@@ -270,7 +274,7 @@ public class Functions
             }
             else
             {
-                System.out.println(redColorCode + "Error: Data has not been updated." + whiteColorCode);
+                System.out.println(redColorCode + "Error: Password has not been updated." + whiteColorCode);
                 System.out.println(" ");
             }
         }
@@ -300,34 +304,33 @@ public class Functions
             {
                 flag = false;
                 System.out.print("What is your habit's name? ");
-                name = input.nextLine();
-                String lowerCase = name.toLowerCase();
-                if (lowerCase.trim().isEmpty())
+                name = input.nextLine().toLowerCase();
+                if (name.trim().isEmpty())
                 {
                     System.out.println(redColorCode + "Error: Habit name cannot be empty." + whiteColorCode);
                     flag = true;
                 }
-                else if (lowerCase.trim().length() < 3)
+                else if (name.trim().length() < 3)
                 {
                     System.out.println(redColorCode + "Error: Habit name must be at least 3 characters long." + whiteColorCode);
                     flag = true;
                 }
                 // to check if the habit name contains special characters
-                else if (lowerCase.trim().matches(".*[^a-zA-Z0-9\\s].*"))
+                else if (name.trim().matches(".*[^a-zA-Z0-9\\s].*"))
                 {
                     System.out.println(redColorCode + "Error: Habit name contains special characters." + whiteColorCode);
                     flag = true;
                 }
-                else if (lowerCase.contains(" "))
+                else if (name.length() > 50)
                 {
-                    System.out.println(redColorCode + "Error: Habit name cannot contain spaces." + whiteColorCode);
+                    System.out.println(redColorCode + "Error: Habit name must be less than 50 characters." + whiteColorCode);
                     flag = true;
                 }
                 // to check if the habit name contains digits
                 boolean containsDigits = false;
-                for (int i = 0; i < lowerCase.length(); i++)
+                for (int i = 0; i < name.length(); i++)
                 {
-                    if (Character.isDigit(lowerCase.charAt(i)))
+                    if (Character.isDigit(name.charAt(i)))
                     {
                         containsDigits = true;
                         flag = true;
@@ -338,14 +341,14 @@ public class Functions
                 {
                     System.out.println(redColorCode + "Error: Habit name contains digits" + whiteColorCode);
                 }
+                //retrieving habit name into array
                 Database.retrieveDataIntoArray(info);
-                if (Database.storeActivityName.contains(lowerCase))
+                //comparing habit names with existing habits
+                if (Database.storeActivityName.contains(name))
                 {
                     System.out.println(redColorCode + "Error: Habit already exists." + whiteColorCode);
                     flag = true;
                 }
-                //assign the lowercase habit name to the name variable
-                name = lowerCase;
             }
             while (flag);
             //habit description
@@ -364,6 +367,11 @@ public class Functions
                     System.out.println(redColorCode + "Error: Habit description must be at least 3 characters long." + whiteColorCode);
                     flag = true;
                 }
+                else if (description.length() > 200)
+                {
+                    System.out.println(redColorCode + "Error: Habit description must be less than 200 characters." + whiteColorCode);
+                    flag = true;
+                }
             }
             while (flag);
             //habit goal
@@ -380,6 +388,11 @@ public class Functions
                 else if (goal.trim().length() < 3)
                 {
                     System.out.println(redColorCode + "Error: Habit goal must be at least 3 characters long." + whiteColorCode);
+                    flag = true;
+                }
+                else if (goal.length() > 100)
+                {
+                    System.out.println(redColorCode + "Error: Habit goal must be less than 100 characters." + whiteColorCode);
                     flag = true;
                 }
             }
@@ -403,7 +416,7 @@ public class Functions
         }
         else
         {
-            System.out.println(redColorCode + "Error: You can only add 5 habits." + whiteColorCode);
+            System.out.println(redColorCode + "Error: You can only add 5 habits at a time." + whiteColorCode);
         }
     }
     // to update existing habit
@@ -416,7 +429,6 @@ public class Functions
         boolean isDataExist = Database.displayGeneralHabitInfo(info);
         if (isDataExist)
         {
-//            String progressBar = "-----------------------------";
             String progressBar = "▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯";
             int completedDays;
             int habitId;
@@ -439,7 +451,7 @@ public class Functions
                         // fetching number of day have been completed so far
                         int habitDays = Database.habitDays(habitId);
                         System.out.print("How many days have been completed so far? ");
-                        completedDays = input.nextInt()+habitDays;
+                        completedDays = input.nextInt() + habitDays;
                         if (completedDays <= habitDays)
                         {
                             System.out.println(redColorCode + "Error: You can't decline your progress days." + whiteColorCode);
@@ -455,7 +467,6 @@ public class Functions
                                     for (int i = 0; i < completedDays; i++)
                                     {
                                         progressBarBuilder.setCharAt(i, '▮');
-
                                     }
                                     progressBar = progressBarBuilder.toString();
                                     boolean ckh = Database.updateData(habitId, progressBar, completedDays);
@@ -469,6 +480,8 @@ public class Functions
                                 else if (completedDays == 30)
                                 {
                                     flag = false;
+                                    System.out.println(" ");
+                                    System.out.println(mintColorCode + "Congratulations, you've successfully completed your habit!" + whiteColorCode);
                                     System.out.print("What are your Achievements? ");
                                     input.nextLine();
                                     achievement = input.nextLine();
@@ -482,6 +495,11 @@ public class Functions
                                         else if (achievement.trim().length() < 3)
                                         {
                                             System.out.println(redColorCode + "Error: Habit achievement must be at least 3 characters long." + whiteColorCode);
+                                            flag = true;
+                                        }
+                                        else if (achievement.length() > 150)
+                                        {
+                                            System.out.println(redColorCode + "Error: Habit achievement must be less than 150 characters." + whiteColorCode);
                                             flag = true;
                                         }
                                         else
@@ -499,7 +517,7 @@ public class Functions
                                             }
                                             else
                                             {
-                                                System.out.println(redColorCode + "Error: Some problem occurred." + whiteColorCode);
+                                                System.out.println(redColorCode + "Error: Something went wrong :(" + whiteColorCode);
                                             }
                                         }
                                     }
@@ -632,7 +650,7 @@ public class Functions
     //to show user info
     public static void showUserInfo(UserLogin info)
     {
-        System.out.println(mintColorCode + "\t\t\t\t\t User Info \n" + whiteColorCode);
+        System.out.println(mintColorCode + "\t\t\t\t\t User's Info \n" + whiteColorCode);
         Database.showUserInfo(info);
     }
     //to show deleted habit

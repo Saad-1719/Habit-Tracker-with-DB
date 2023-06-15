@@ -40,9 +40,9 @@ public class Database
         {
             //jdbc code
             Connection con = Connector.createConnection();
-            int c;
-            c = activeUserId(info);
-            String query = "select * from activity where userid = '" + c + "';";
+            int userId;
+            userId = activeUserId(info);
+            String query = "select * from activity where userid = '" + userId + "';";
             Statement smt = con.createStatement();
             ResultSet show = smt.executeQuery(query);
             storeActivityName.clear();
@@ -70,22 +70,6 @@ public class Database
             //jdbc code
             Connection con = Connector.createConnection();
             int fetchId = activeUserId(id);
-//            String count = "Select * from activity where userid =?";
-//            PreparedStatement pst = con.prepareStatement(count);
-//            pst.setInt(1, fetchId);
-//            ResultSet set = pst.executeQuery();
-//            int total = 0;
-//            while (set.next())
-//            {
-//                total++;
-//            }
-//            if (total >= 5)
-//            {
-//                System.out.println(redColorCode + "Error: You cannot have more than 5 habits at a time." + whiteColorCode);
-//                entrychk = false;
-//            }
-//            else
-//            {
             String query = "insert into activity(name,description,goal,bar,completeddays,userid)values(?,?,?,?,?,?)";
             PreparedStatement pstmt = con.prepareStatement(query);
             //set values of parameter
@@ -97,7 +81,6 @@ public class Database
             pstmt.setInt(6, fetchId);
             pstmt.executeUpdate();
             entrychk = true;
-//            }
             con.close();
             pstmt.close();
         }
@@ -143,11 +126,11 @@ public class Database
         {
             //jdbc code
             Connection con = Connector.createConnection();
-            int c;
-            c = activeUserId(info);
+            int userId;
+            userId = activeUserId(info);
             String query = "select * from activity where userid = ?";
             PreparedStatement smt = con.prepareStatement(query);
-            smt.setInt(1, c);
+            smt.setInt(1, userId);
             ResultSet show = smt.executeQuery();
             boolean hasData = false;
             while (show.next())
@@ -189,11 +172,11 @@ public class Database
         {
             //jdbc code
             Connection con = Connector.createConnection();
-            int c;
-            c = activeUserId(info);
+            int userId;
+            userId = activeUserId(info);
             String query = "select * from activity where userid = ?";
             PreparedStatement smt = con.prepareStatement(query);
-            smt.setInt(1, c);
+            smt.setInt(1, userId);
             ResultSet show = smt.executeQuery();
             boolean hasData = false;
             while (show.next())
