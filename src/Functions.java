@@ -20,6 +20,7 @@ public class Functions
         int choice = 0;
         try
         {
+
             choice = input.nextInt();
             input.nextLine();
         }
@@ -35,6 +36,7 @@ public class Functions
     public static void createUserName()
     {
         input.nextLine();
+
         while (true)
         {
             System.out.print("Enter a username: ");
@@ -49,7 +51,7 @@ public class Functions
                 System.out.println(redColorCode + "Error: Username cannot contain spaces." + whiteColorCode);
                 continue;
             }
-            else if(username.length() > 10)
+            else if(username.length() > 30)
             {
                 System.out.println(redColorCode + "Error: Username must be less than 10 characters." + whiteColorCode);
                 continue;
@@ -84,7 +86,6 @@ public class Functions
     // Creating New Password.
     public static void introducePassword()
     {
-//        input.nextLine(); // Fix Added
         boolean isValidPassword = false;
         while (!isValidPassword)
         {
@@ -94,7 +95,7 @@ public class Functions
             {
                 System.out.println(redColorCode + "Error: Password must be a minimum of 5 characters." + whiteColorCode);
             }
-            else if (createPassword.length() > 10)
+            else if (createPassword.length() > 30)
             {
                 System.out.println(redColorCode + "Error: Password must be a maximum of 10 characters." + whiteColorCode);
             }
@@ -139,6 +140,10 @@ public class Functions
             {
                 System.out.println(redColorCode + "Error: First name contains digits." + whiteColorCode);
             }
+            else if (firstName.length() > 30)
+            {
+                System.out.println(redColorCode + "Error: First Name must be maximum 30 characters long." + whiteColorCode);
+            }
             else
             {
                 flag = false;
@@ -165,6 +170,10 @@ public class Functions
             else if (lastName.matches(".*\\d+.*"))
             {
                 System.out.println(redColorCode + "Error: Last name contains digits." + whiteColorCode);
+            }
+            else if (lastName.length() > 30)
+            {
+                System.out.println(redColorCode + "Error: Last Name must be maximum 30 characters long." + whiteColorCode);
             }
             else
             {
@@ -326,6 +335,11 @@ public class Functions
                     System.out.println(redColorCode + "Error: Habit name must be less than 50 characters." + whiteColorCode);
                     flag = true;
                 }
+                else if(name.contains(" "))
+                {
+                    System.out.println(redColorCode + "Error: Habit name must not have spaces." + whiteColorCode);
+                    flag = true;
+                }
                 // to check if the habit name contains digits
                 boolean containsDigits = false;
                 for (int i = 0; i < name.length(); i++)
@@ -451,7 +465,7 @@ public class Functions
                         // fetching number of day have been completed so far
                         int habitDays = Database.habitDays(habitId);
                         System.out.print("How many days have been completed so far? ");
-                        completedDays = input.nextInt() + habitDays;
+                        completedDays = input.nextInt();
                         if (completedDays <= habitDays)
                         {
                             System.out.println(redColorCode + "Error: You can't decline your progress days." + whiteColorCode);
@@ -672,7 +686,7 @@ public class Functions
         System.out.println("ID: 01-131222-050");
         System.out.println("Habit Functionality Designer");
         System.out.println(" ");
-        System.out.println("Name: Faaiz Muzammil");
+        System.out.println("Name: Faaiz Muzammal");
         System.out.println("ID: 01-131222-054");
         System.out.println("Login and Signup Designer");
         System.out.print(whiteColorCode);

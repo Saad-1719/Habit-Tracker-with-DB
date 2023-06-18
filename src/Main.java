@@ -1,5 +1,4 @@
 import java.util.Scanner;
-
 import static java.lang.System.exit;
 public class Main
 {
@@ -14,7 +13,6 @@ public class Main
         while (isRunning)
         {
             // Display Main Menu.
-//            System.out.println(" ");
             System.out.println(mintColorCode + "\t\t\t\t\t ＷＥＬＣＯＭＥ ＴＯ ΛＴＬΛＳＭＩＮＤ" + whiteColorCode);
             System.out.println(" ");
             System.out.println("Press [1] To Login and Step Into Your World.");
@@ -24,7 +22,6 @@ public class Main
             System.out.print("Enter Your Desired Choice: ");
             // Get user choice from the main menu.
             int choice = Functions.getUserChoice(input);
-//            System.out.println(" ");
             switch (choice)
             {
                 // Logging In.
@@ -45,7 +42,6 @@ public class Main
                         System.out.println(mintColorCode + "Congratulations! You've Made It!" + partyEmoji + whiteColorCode);
                         // Greeting the user.
                         Functions.greetings(info);
-                        //isRunning = handleLoggedInMenu(input, info);
                         while (true)
                         {
                             // Menu Within After Login.

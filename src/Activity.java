@@ -81,4 +81,5 @@ public class Activity
     {
         this.progressBar = progressBar;
     }
+
 }
