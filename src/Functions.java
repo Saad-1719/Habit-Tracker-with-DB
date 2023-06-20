@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Random;
 import java.util.Scanner;
+
 public class Functions
 {
     static Scanner input = new Scanner(System.in);
@@ -14,6 +15,7 @@ public class Functions
     static String redColorCode = "\u001B[31m";
     static String greenColorCode = "\u001B[92m";
     static String yellowColor = "\u001B[93m";
+
     // User Choice for both main loops.
     public static int getUserChoice(Scanner input)
     {
@@ -31,6 +33,7 @@ public class Functions
         }
         return choice;
     }
+
     // to add new user
     public static void createUserName()
     {
@@ -49,7 +52,7 @@ public class Functions
                 System.out.println(redColorCode + "Error: Username cannot contain spaces." + whiteColorCode);
                 continue;
             }
-            else if(username.length() > 20)
+            else if (username.length() > 20)
             {
                 System.out.println(redColorCode + "Error: Username must be less than 20 characters." + whiteColorCode);
                 continue;
@@ -81,6 +84,7 @@ public class Functions
             }
         }
     }
+
     // Creating New Password.
     public static void introducePassword()
     {
@@ -118,6 +122,7 @@ public class Functions
         }
         System.out.println(greenColorCode + "Password Added!" + whiteColorCode);
     }
+
     // Creating New First Name.
     public static void introduceFirstName()
     {
@@ -149,6 +154,7 @@ public class Functions
             }
         }
     }
+
     // Creating New Last Name.
     public static void introduceLastName()
     {
@@ -180,6 +186,7 @@ public class Functions
             }
         }
     }
+
     // Setting New User's Age.
     public static void introduceAge()
     {
@@ -208,6 +215,7 @@ public class Functions
             }
         }
     }
+
     //signup function to add new user
     public static void signup()
     {
@@ -237,6 +245,7 @@ public class Functions
             System.out.println(redColorCode + "Error: Something went wrong :(" + whiteColorCode);
         }
     }
+
     // to forget password
     public static void forgetPassword()
     {
@@ -247,12 +256,36 @@ public class Functions
             System.out.println(" ");
             System.out.println(redColorCode + "Press Enter to continue if no input option appears" + whiteColorCode);
             input.nextLine();
-            System.out.print("Enter a username: ");
-            username = input.nextLine().toLowerCase();
-            System.out.print("Enter First name: ");
-            firstName = input.nextLine().toLowerCase();
-            System.out.print("Enter Last name: ");
-            lastName = input.nextLine().toLowerCase();
+            do
+            {
+                System.out.print("Enter a username: ");
+                username = input.nextLine().toLowerCase();
+                if (username.isEmpty())
+                {
+                    System.out.println(redColorCode + "Error: Input Field mustn't be empty." + whiteColorCode);
+                }
+            }
+            while (username.isEmpty());
+            do
+            {
+                System.out.print("Enter First name: ");
+                firstName = input.nextLine().toLowerCase();
+                if (firstName.isEmpty())
+                {
+                    System.out.println(redColorCode + "Error: Input Field mustn't be empty." + whiteColorCode);
+                }
+            }
+            while (firstName.isEmpty());
+            do
+            {
+                System.out.print("Enter Last name: ");
+                lastName = input.nextLine().toLowerCase();
+                if (lastName.isEmpty())
+                {
+                    System.out.println(redColorCode + "Error: Input Field mustn't be empty." + whiteColorCode);
+                }
+            }
+            while (lastName.isEmpty());
             System.out.print("Enter Age: ");
             age = input.nextInt();
         }
@@ -290,6 +323,7 @@ public class Functions
             System.out.println(" ");
         }
     }
+
     // to add a habit into db
     public static void addHabit(UserLogin info)
     {
@@ -430,6 +464,7 @@ public class Functions
             System.out.println(redColorCode + "Error: You can only add 5 habits at a time." + whiteColorCode);
         }
     }
+
     // to update existing habit
     public static void updateHabit(UserLogin info)
     {
@@ -565,12 +600,14 @@ public class Functions
             }
         }
     }
+
     // to show habit from db
     public static void showHabit(UserLogin info)
     {
         System.out.println(mintColorCode + "\t\t\t\t\t Ongoing Habits \n" + whiteColorCode);
         Database.displayCompleteHabitInfo(info);
     }
+
     // to delete habit from db
     public static void deleteHabit(UserLogin info)
     {
@@ -619,6 +656,7 @@ public class Functions
             }
         }
     }
+
     //Welcome notes
     public static void greetings(UserLogin info)
     {
@@ -635,6 +673,7 @@ public class Functions
             System.out.println("        Good Evening \uD83C\uDF06\uD83C\uDF06, " + info.getUsername() + "!");
         }
     }
+
     //quotes
     public static void quotes()
     {
@@ -653,24 +692,28 @@ public class Functions
         String randomString = inspiration.get(randIndex);
         System.out.println(yellowColor + randomString + whiteColorCode);
     }
+
     //to show history
     public static void showHistory(UserLogin info)
     {
         System.out.println(mintColorCode + "\t\t\t\t\t Completed Habit History \n" + whiteColorCode);
         Database.displayHistory(info);
     }
+
     //to show user info
     public static void showUserInfo(UserLogin info)
     {
         System.out.println(mintColorCode + "\t\t\t\t\t User's Info \n" + whiteColorCode);
         Database.showUserInfo(info);
     }
+
     //to show deleted habit
     public static void showDeletedHabit(UserLogin info)
     {
         System.out.println(mintColorCode + "\t\t\t\t\t Deleted Habit Habit \n" + whiteColorCode);
         Database.displayDeletedHabitInfo(info);
     }
+
     //to show developer info
     public static void developerInfo()
     {
