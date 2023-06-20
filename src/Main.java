@@ -1,4 +1,5 @@
 import java.util.Scanner;
+
 import static java.lang.System.exit;
 public class Main
 {
@@ -15,10 +16,10 @@ public class Main
             // Display Main Menu.
             System.out.println(mintColorCode + "\t\t\t\t\t ＷＥＬＣＯＭＥ ＴＯ ΛＴＬΛＳＭＩＮＤ" + whiteColorCode);
             System.out.println(" ");
-            System.out.println("Press [1] To Login and Step Into Your World.");
-            System.out.println("Press [2] To Join Us.");
-            System.out.println("Press [3] To Forgot your password.");
-            System.out.println("Press [4] To Depart & Exit.");
+            System.out.println("[1]: Login and Step Into Your World.");
+            System.out.println("[2]: Join Us.");
+            System.out.println("[3]: Forgot your password.");
+            System.out.println("[4]: Depart & Exit.");
             System.out.print("Enter Your Desired Choice: ");
             // Get user choice from the main menu.
             int choice = Functions.getUserChoice(input);
@@ -39,7 +40,7 @@ public class Main
                     System.out.println(" ");
                     if (dataFound)
                     {
-                        System.out.println(mintColorCode + "Congratulations! You've Made It!" + partyEmoji + whiteColorCode);
+                        System.out.println(mintColorCode + "Congratulations, You've made it in!" + partyEmoji + whiteColorCode);
                         // Greeting the user.
                         Functions.greetings(info);
                         while (true)
@@ -47,16 +48,16 @@ public class Main
                             // Menu Within After Login.
                             System.out.println(" ");
                             System.out.println(mintColorCode + "\t\t\t\t\t ΛＴＬΛＳＭＩＮＤ \n" + whiteColorCode);
-                            System.out.println("Press [1] To Introduce a New Habit.");
-                            System.out.println("Press [2] To Showcase Current Habits.");
-                            System.out.println("Press [3] To Delete a Habit.");
-                            System.out.println("Press [4] To Enhance Progress.");
-                            System.out.println("Press [5] To View Completed Habit History.");
-                            System.out.println("Press [6] To View Deleted Habit History.");
-                            System.out.println("Press [7] To View Inspiring Quote of the Day.");
-                            System.out.println("Press [8] To View User Information.");
-                            System.out.println("Press [9] To Learn About the Team.");
-                            System.out.println("Press [10] To Logout and Disembark.");
+                            System.out.println("[1]: Introduce a New Habit.");
+                            System.out.println("[2]: Showcase Current Habits.");
+                            System.out.println("[3]: Enhance Progress.");
+                            System.out.println("[4]: Delete a Habit.");
+                            System.out.println("[5]: View Completed Habit History.");
+                            System.out.println("[6]: View Deleted Habit History.");
+                            System.out.println("[7]: View Inspiring Quote of the Day.");
+                            System.out.println("[8]: View User Information.");
+                            System.out.println("[9]: Learn About the Team.");
+                            System.out.println("[10]: Logout and Disembark.");
                             System.out.print("Enter your choice: ");
                             int selection = Functions.getUserChoice(input);
                             System.out.println();
@@ -69,10 +70,10 @@ public class Main
                                     Functions.showHabit(info);
                                     break;
                                 case 3:
-                                    Functions.deleteHabit(info);
+                                    Functions.updateHabit(info);
                                     break;
                                 case 4:
-                                    Functions.updateHabit(info);
+                                    Functions.deleteHabit(info);
                                     break;
                                 case 5:
                                     Functions.showHistory(info);

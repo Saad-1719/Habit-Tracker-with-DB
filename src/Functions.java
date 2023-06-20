@@ -20,7 +20,6 @@ public class Functions
         int choice = 0;
         try
         {
-
             choice = input.nextInt();
             input.nextLine();
         }
@@ -36,7 +35,6 @@ public class Functions
     public static void createUserName()
     {
         input.nextLine();
-
         while (true)
         {
             System.out.print("Enter a username: ");
@@ -51,9 +49,9 @@ public class Functions
                 System.out.println(redColorCode + "Error: Username cannot contain spaces." + whiteColorCode);
                 continue;
             }
-            else if(username.length() > 30)
+            else if(username.length() > 20)
             {
-                System.out.println(redColorCode + "Error: Username must be less than 10 characters." + whiteColorCode);
+                System.out.println(redColorCode + "Error: Username must be less than 20 characters." + whiteColorCode);
                 continue;
             }
             // to check if username has letters
@@ -95,7 +93,7 @@ public class Functions
             {
                 System.out.println(redColorCode + "Error: Password must be a minimum of 5 characters." + whiteColorCode);
             }
-            else if (createPassword.length() > 30)
+            else if (createPassword.length() > 10)
             {
                 System.out.println(redColorCode + "Error: Password must be a maximum of 10 characters." + whiteColorCode);
             }
@@ -132,6 +130,10 @@ public class Functions
             {
                 System.out.println(redColorCode + "Error: First Name must be atleast 3 characters long." + whiteColorCode);
             }
+            else if (firstName.length() > 30)
+            {
+                System.out.println(redColorCode + "Error: First Name must be less than 30 characters." + whiteColorCode);
+            }
             else if (firstName.matches(".*[^a-zA-Z0-9\\s].*"))
             {
                 System.out.println(redColorCode + "Error: First name contains special characters." + whiteColorCode);
@@ -139,10 +141,6 @@ public class Functions
             else if (firstName.matches(".*\\d+.*"))
             {
                 System.out.println(redColorCode + "Error: First name contains digits." + whiteColorCode);
-            }
-            else if (firstName.length() > 30)
-            {
-                System.out.println(redColorCode + "Error: First Name must be maximum 30 characters long." + whiteColorCode);
             }
             else
             {
@@ -163,6 +161,10 @@ public class Functions
             {
                 System.out.println(redColorCode + "Error: Last Name must be atleast 3 characters long." + whiteColorCode);
             }
+            else if (lastName.length() > 30)
+            {
+                System.out.println(redColorCode + "Error: Last Name must be less than 30 characters." + whiteColorCode);
+            }
             else if (lastName.matches(".*[^a-zA-Z0-9\\s].*"))
             {
                 System.out.println(redColorCode + "Error: Last name contains special characters." + whiteColorCode);
@@ -170,10 +172,6 @@ public class Functions
             else if (lastName.matches(".*\\d+.*"))
             {
                 System.out.println(redColorCode + "Error: Last name contains digits." + whiteColorCode);
-            }
-            else if (lastName.length() > 30)
-            {
-                System.out.println(redColorCode + "Error: Last Name must be maximum 30 characters long." + whiteColorCode);
             }
             else
             {
@@ -186,7 +184,6 @@ public class Functions
     public static void introduceAge()
     {
         boolean flag = true;
-        Scanner input = new Scanner(System.in);
         while (flag)
         {
             System.out.print("Enter Age: ");
@@ -335,11 +332,11 @@ public class Functions
                     System.out.println(redColorCode + "Error: Habit name must be less than 50 characters." + whiteColorCode);
                     flag = true;
                 }
-                else if(name.contains(" "))
-                {
-                    System.out.println(redColorCode + "Error: Habit name must not have spaces." + whiteColorCode);
-                    flag = true;
-                }
+//                else if (name.contains(" "))
+//                {
+//                    System.out.println(redColorCode + "Error: Habit name contains spaces" + whiteColorCode);
+//                    flag = true;
+//                }
                 // to check if the habit name contains digits
                 boolean containsDigits = false;
                 for (int i = 0; i < name.length(); i++)
@@ -599,6 +596,7 @@ public class Functions
                     String habitName = Database.habitName(delId);
                     Activity data = new Activity();
                     data.setName(habitName);
+                    //to write data into a deleted habit table
                     Database.writeDeleted(info, data);
                     // to delete habit from general habit table
                     boolean ckh = Database.deleteData(delId);
@@ -643,13 +641,13 @@ public class Functions
         System.out.println(mintColorCode + "\t\t\t\t\t Quote of the day \n" + whiteColorCode);
         ArrayList<String> inspiration = new ArrayList<>();
         inspiration.add("It's the smallest actions everyday that determine who you are ...");
-        inspiration.add("All big things come from small beginnings. The seed of every habit is single, tiny decision.");
+        inspiration.add("All big things come from small beginnings. The seed of every habit is a single, tiny decision.");
         inspiration.add("Break bad habits, Build good habits.");
-        inspiration.add("Habit stay with you even when you don't have the motivation.");
+        inspiration.add("Habits stay with you, even when you don't have the motivation.");
         inspiration.add("Good habits formed at youth make all the difference.");
-        inspiration.add("Consistency is what transforms average into excellence");
-        inspiration.add("Success isn't always about greatness. It's about consistency. Consistent hard work leads to success greatness will come");
-        inspiration.add("Continuous improvement is better than delayed");
+        inspiration.add("Consistency is what transforms average into excellence.");
+        inspiration.add("Success isn't always about greatness. It's about consistency. Consistent hard work leads to success greatness will come.");
+        inspiration.add("Continuous improvement is better than delayed.");
         Random rand = new Random();
         int randIndex = rand.nextInt(inspiration.size());
         String randomString = inspiration.get(randIndex);
@@ -686,7 +684,7 @@ public class Functions
         System.out.println("ID: 01-131222-050");
         System.out.println("Habit Functionality Designer");
         System.out.println(" ");
-        System.out.println("Name: Faaiz Muzammal");
+        System.out.println("Name: Faaiz Muzzammil");
         System.out.println("ID: 01-131222-054");
         System.out.println("Login and Signup Designer");
         System.out.print(whiteColorCode);
